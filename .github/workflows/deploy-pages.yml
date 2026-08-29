@@ -29,7 +29,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm install --include=dev
+      - run: npm install --include=dev --package-lock=false
       - run: npm run build
 
       - uses: actions/configure-pages@v5
