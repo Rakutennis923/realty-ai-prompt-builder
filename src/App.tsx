@@ -509,33 +509,54 @@ export default function Home() {
                       <Input
                         value={data.style}
                         onChange={(e) => setField("style", e.target.value)}
-                        list="visual-style-options"
                         placeholder="選擇或自行輸入視覺風格"
                         className="border-white/10 bg-[#090f0e] text-[#edf1eb]"
                       />
-                      <datalist id="visual-style-options">
-                        <option value="專業、現代、清楚、可信任" />
-                        <option value="溫馨生活風" />
-                        <option value="都市科技風" />
-                        <option value="輕奢輕古典風" />
-                        <option value="工業復古風" />
-                      </datalist>
+                      <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-3 xl:grid-cols-5">
+                        {[
+                          "專業現代風",
+                          "溫馨生活風",
+                          "都市科技風",
+                          "輕奢輕古典風",
+                          "工業復古風",
+                        ].map((item) => (
+                          <button
+                            key={item}
+                            type="button"
+                            onClick={() => setField("style", item)}
+                            className={`min-h-9 rounded-lg border px-2 py-1.5 text-center text-[11px] font-bold leading-4 transition sm:text-xs ${data.style === item ? "border-[#ff7c84] bg-[#c92335] text-white shadow-[0_0_0_2px_rgba(255,124,132,.18)]" : "border-white/10 bg-[#181113] text-[#c4ccc7] hover:border-[#c92335]/60 hover:bg-[#251417]"}`}
+                          >
+                            {item}
+                          </button>
+                        ))}
+                      </div>
                     </label>
                     <label>
                       <span className="field-label">品牌配色</span>
                       <Input
                         value={data.colors}
                         onChange={(e) => setField("colors", e.target.value)}
-                        list="brand-color-options"
                         placeholder="選擇或自行輸入配色"
                         className="border-white/10 bg-[#090f0e] text-[#edf1eb]"
                       />
-                      <datalist id="brand-color-options">
-                        <option value="綠＋黃" />
-                        <option value="深藍色＋金／古銅" />
-                        <option value="橘紅＋白＋淺灰" />
-                        <option value="黑灰＋明亮霓虹" />
-                      </datalist>
+                      <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+                        {[
+                          ["綠＋黃", "bg-[linear-gradient(90deg,#238b57_0_50%,#e8c547_50%)]"],
+                          ["深藍＋金／古銅", "bg-[linear-gradient(90deg,#17355c_0_50%,#b48245_50%)]"],
+                          ["橘紅＋白＋淺灰", "bg-[linear-gradient(90deg,#dc5a3a_0_34%,#f7f4ee_34%_67%,#afb4b8_67%)]"],
+                          ["黑灰＋明亮霓虹", "bg-[linear-gradient(90deg,#24272a_0_55%,#2de2e6_55%_77%,#ff4fd8_77%)]"],
+                        ].map(([item, swatch]) => (
+                          <button
+                            key={item}
+                            type="button"
+                            onClick={() => setField("colors", item)}
+                            className={`flex min-h-11 items-center gap-2 rounded-lg border px-2 py-1.5 text-left text-[10px] font-bold leading-4 transition sm:text-[11px] ${data.colors === item ? "border-[#ff7c84] bg-[#c92335] text-white shadow-[0_0_0_2px_rgba(255,124,132,.18)]" : "border-white/10 bg-[#181113] text-[#c4ccc7] hover:border-[#c92335]/60 hover:bg-[#251417]"}`}
+                          >
+                            <span className={`h-5 w-5 shrink-0 rounded-full border border-white/20 ${swatch}`} />
+                            <span>{item}</span>
+                          </button>
+                        ))}
+                      </div>
                     </label>
                     <label>
                       <span className="field-label">物件照片微調</span>
