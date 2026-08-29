@@ -250,17 +250,17 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_top,#6b2635_0%,#45151f_38%,#260b11_100%)] text-[#f7f0ec]">
-      <header className="border-b border-[#b92d35]/25 bg-[#130d0f]/95 px-4 py-4 backdrop-blur md:px-8">
+      <header className="site-header border-b border-[#b92d35]/25 bg-[#130d0f]/95 px-4 py-4 backdrop-blur md:px-8">
         <div className="mx-auto flex max-w-[1480px] items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
             <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-[#b92d35] text-white sm:size-11">
               <Building2 />
             </span>
             <div className="min-w-0">
-              <h1 className="truncate text-base font-black tracking-tight sm:text-lg md:text-xl">
+              <h1 className="brand-title truncate text-base font-black tracking-tight sm:text-lg md:text-xl">
                 房仲 AI 提示詞產生器
               </h1>
-              <p className="truncate text-[11px] text-[#a5b0aa] sm:text-xs">
+              <p className="brand-subtitle truncate text-[11px] text-[#a5b0aa] sm:text-xs">
                 太平洋房屋 友成幸福團隊
               </p>
             </div>
@@ -277,25 +277,25 @@ export default function Home() {
         </div>
       </header>
       <div className="mx-auto max-w-[1480px] px-4 py-6 md:px-8 md:py-9">
-        <section className="mb-7 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+        <section className="hero-intro mb-7 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="mb-2 flex items-center gap-2 text-sm font-bold text-[#d95a62]">
+            <p className="hero-kicker mb-2 flex items-center gap-2 text-sm font-bold text-[#d95a62]">
               <Sparkles className="size-4" />
               五個步驟，完成可直接使用的提示詞
             </p>
-            <h2 className="max-w-4xl text-3xl font-black leading-tight tracking-[-0.035em] text-[#f4f1e9] md:text-5xl">
+            <h2 className="hero-title max-w-4xl text-3xl font-black leading-tight tracking-[-0.035em] text-[#f4f1e9] md:text-5xl">
               選用途、填資料，
               <br className="hidden sm:block" />
               讓好物件說對的話。
             </h2>
           </div>
-          <p className="max-w-md text-sm leading-7 text-[#9eaaa4]">
+          <p className="hero-desc max-w-md text-sm leading-7 text-[#9eaaa4]">
             內建文案與圖像海報情境，自動加入台灣繁體中文、經紀業資料及不實廣告防呆規則。
           </p>
         </section>
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.04fr)_minmax(420px,.96fr)]">
-          <section className="rounded-[28px] border border-[#d8a1a8]/20 bg-[#45151f]/95 p-5 shadow-[0_22px_70px_rgba(20,0,5,.38)] md:p-7">
-            <div className="mb-7 flex items-center gap-3">
+          <section className="builder-panel rounded-[28px] border border-[#d8a1a8]/20 bg-[#45151f]/95 p-5 shadow-[0_22px_70px_rgba(20,0,5,.38)] md:p-7">
+            <div className="step-one-heading mb-7 flex items-center gap-3">
               <span className="step">1</span>
               <div>
                 <h3 className="font-black text-[#f1eee7]">
@@ -306,18 +306,18 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <Tabs value={mode} onValueChange={changeMode} className="mb-6">
-              <TabsList className="grid h-auto w-full grid-cols-1 gap-3 rounded-2xl bg-transparent p-0 sm:grid-cols-2">
+            <Tabs value={mode} onValueChange={changeMode} className="mode-tabs mb-6">
+              <TabsList className="mode-tabs-list grid h-auto w-full grid-cols-1 gap-3 rounded-2xl bg-transparent p-0 sm:grid-cols-2">
                 <TabsTrigger
                   value="copy"
-                  className="group h-auto min-h-28 items-start justify-start rounded-2xl border border-white/10 bg-[#100b0d] p-4 text-left shadow-none transition-all hover:border-[#b92d35]/60 hover:bg-[#1a1114] data-[state=active]:border-[#b92d35] data-[state=active]:bg-[#251619] data-[state=active]:shadow-[0_0_0_1px_rgba(185,45,53,.22),0_14px_32px_rgba(0,0,0,.24)]"
+                  className="mode-trigger group h-auto min-h-28 items-start justify-start rounded-2xl border border-white/10 bg-[#100b0d] p-4 text-left shadow-none transition-all hover:border-[#b92d35]/60 hover:bg-[#1a1114] data-[state=active]:border-[#e85a63] data-[state=active]:bg-[#7a1e2a] data-[state=active]:shadow-[0_0_0_1px_rgba(232,90,99,.35),0_14px_32px_rgba(0,0,0,.24)]"
                 >
-                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#26181b] text-[#d95a62] group-data-[state=active]:bg-[#b92d35] group-data-[state=active]:text-white">
+                  <span className="mode-icon grid size-11 shrink-0 place-items-center rounded-xl bg-[#26181b] text-[#d95a62] group-data-[state=active]:bg-white group-data-[state=active]:text-[#8e2630]">
                     <FileText className="size-5" />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="flex items-center justify-between gap-2">
-                      <strong className="text-lg text-[#f3f0e8]">
+                      <strong className="mode-label text-lg text-[#f3f0e8]">
                         生成文案
                       </strong>
                       {mode === "copy" && (
@@ -326,21 +326,21 @@ export default function Home() {
                         </span>
                       )}
                     </span>
-                    <span className="mt-1.5 block whitespace-normal text-sm font-normal leading-6 text-[#b4beb8] sm:text-[15px]">
+                    <span className="mode-desc mt-1.5 block whitespace-normal text-sm font-normal leading-6 text-[#b4beb8] sm:text-[15px]">
                       適合591物件介紹、Facebook、LINE、商圈貼文及短影音腳本
                     </span>
                   </span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="image"
-                  className="group h-auto min-h-28 items-start justify-start rounded-2xl border border-white/10 bg-[#100b0d] p-4 text-left shadow-none transition-all hover:border-[#b92d35]/60 hover:bg-[#1a1114] data-[state=active]:border-[#b92d35] data-[state=active]:bg-[#251619] data-[state=active]:shadow-[0_0_0_1px_rgba(185,45,53,.22),0_14px_32px_rgba(0,0,0,.24)]"
+                  className="mode-trigger group h-auto min-h-28 items-start justify-start rounded-2xl border border-white/10 bg-[#100b0d] p-4 text-left shadow-none transition-all hover:border-[#b92d35]/60 hover:bg-[#1a1114] data-[state=active]:border-[#e85a63] data-[state=active]:bg-[#7a1e2a] data-[state=active]:shadow-[0_0_0_1px_rgba(232,90,99,.35),0_14px_32px_rgba(0,0,0,.24)]"
                 >
-                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#26181b] text-[#d95a62] group-data-[state=active]:bg-[#b92d35] group-data-[state=active]:text-white">
+                  <span className="mode-icon grid size-11 shrink-0 place-items-center rounded-xl bg-[#26181b] text-[#d95a62] group-data-[state=active]:bg-white group-data-[state=active]:text-[#8e2630]">
                     <ImageIcon className="size-5" />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="flex items-center justify-between gap-2">
-                      <strong className="text-lg text-[#f3f0e8]">
+                      <strong className="mode-label text-lg text-[#f3f0e8]">
                         生成圖像
                       </strong>
                       {mode === "image" && (
@@ -349,7 +349,7 @@ export default function Home() {
                         </span>
                       )}
                     </span>
-                    <span className="mt-1.5 block whitespace-normal text-sm font-normal leading-6 text-[#b4beb8] sm:text-[15px]">
+                    <span className="mode-desc mt-1.5 block whitespace-normal text-sm font-normal leading-6 text-[#b4beb8] sm:text-[15px]">
                       適合房仲海報、社群首圖、廣告DM、專任委託及開放賞屋
                     </span>
                   </span>
