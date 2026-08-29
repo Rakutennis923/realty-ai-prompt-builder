@@ -378,7 +378,7 @@ export default function Home() {
                   type="button"
                   onClick={() => setUseCase(id)}
                   aria-pressed={useCase === id}
-                  className={`flex min-h-9 items-center gap-1.5 rounded-lg border px-2 py-1.5 text-left text-[11px] font-bold leading-4 transition sm:text-xs ${useCase === id ? "border-[#b92d35] bg-[#b92d35]/18 text-[#f7e8e9] shadow-[0_0_0_1px_rgba(185,45,53,.14)]" : "border-white/[.07] bg-[#181113] text-[#bdc7c1] hover:border-[#b92d35]/50 hover:bg-[#211417]"}`}
+                  className={`flex min-h-9 items-center gap-1.5 rounded-lg border px-2 py-1.5 text-left text-[11px] font-bold leading-4 transition sm:text-xs ${useCase === id ? "border-[#f0737a] bg-[#b92d35] text-white shadow-[0_0_0_2px_rgba(240,115,122,.22),0_6px_16px_rgba(0,0,0,.2)]" : "border-white/[.07] bg-[#181113] text-[#bdc7c1] hover:border-[#b92d35]/50 hover:bg-[#211417]"}`}
                 >
                   <span
                     className={`grid size-5 shrink-0 place-items-center rounded-md text-[9px] ${useCase === id ? "bg-[#b92d35] text-white" : "bg-white/[.06] text-[#8f9c96]"}`}
@@ -447,7 +447,7 @@ export default function Home() {
                   ))}
                 </div>
               </section>
-              {(
+              {mode === "image" && (
                 <section
                   className="order-1 mt-4 rounded-2xl border border-[#d8a1a8]/20 bg-[#381019] p-5"
                 >
