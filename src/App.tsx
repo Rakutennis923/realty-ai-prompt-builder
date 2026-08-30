@@ -249,25 +249,25 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#6b2635_0%,#45151f_38%,#260b11_100%)] text-[#f7f0ec]">
-      <header className="site-header border-b border-[#b92d35]/25 bg-[#130d0f]/95 px-4 py-4 backdrop-blur md:px-8">
+    <main className="min-h-screen bg-[linear-gradient(145deg,#ef0000_0%,#cf0000_52%,#a90000_100%)] text-white">
+      <header className="site-header border-b-4 border-[#ffd633] bg-[#111111] px-4 py-4 md:px-8">
         <div className="mx-auto flex max-w-[1480px] items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
-            <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-[#b92d35] text-white sm:size-11">
+            <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-[#e00000] text-[#ffd633] sm:size-11">
               <Building2 />
             </span>
             <div className="min-w-0">
               <h1 className="brand-title truncate text-base font-black tracking-tight sm:text-lg md:text-xl">
                 房仲 AI 提示詞產生器
               </h1>
-              <p className="brand-subtitle truncate text-[11px] text-[#a5b0aa] sm:text-xs">
+              <p className="brand-subtitle truncate text-[11px] text-[#ffd633] sm:text-xs">
                 太平洋房屋 友成幸福團隊
               </p>
             </div>
           </div>
           <div className="flex shrink-0 flex-col items-end gap-1.5">
-            <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[.06] px-3 py-1.5 text-[11px] font-semibold text-[#b8c3bd] md:flex">
-              <ShieldCheck className="size-3.5 text-[#d95a62]" />
+            <div className="hidden items-center gap-2 rounded-full border border-[#ffd633]/40 bg-[#ffd633]/10 px-3 py-1.5 text-[11px] font-semibold text-white md:flex">
+              <ShieldCheck className="size-3.5 text-[#ffd633]" />
               資料只在你的瀏覽器中組合
             </div>
             <p className="max-w-[130px] text-right text-[8px] leading-tight text-white/35 sm:max-w-none sm:text-[9px]">
@@ -279,29 +279,29 @@ export default function Home() {
       <div className="mx-auto max-w-[1480px] px-4 py-6 md:px-8 md:py-9">
         <section className="hero-intro mb-7 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="hero-kicker mb-2 flex items-center gap-2 text-sm font-bold text-[#d95a62]">
+            <p className="hero-kicker mb-2 flex items-center gap-2 text-sm font-bold text-[#ffd633]">
               <Sparkles className="size-4" />
               五個步驟，完成可直接使用的提示詞
             </p>
-            <h2 className="hero-title max-w-4xl text-3xl font-black leading-tight tracking-[-0.035em] text-[#f4f1e9] md:text-5xl">
+            <h2 className="hero-title max-w-4xl text-3xl font-black leading-tight tracking-[-0.035em] text-white md:text-5xl">
               選用途、填資料，
               <br className="hidden sm:block" />
               讓好物件說對的話。
             </h2>
           </div>
-          <p className="hero-desc max-w-md text-sm leading-7 text-[#9eaaa4]">
+          <p className="hero-desc max-w-md text-sm leading-7 text-white/85">
             內建文案與圖像海報情境，自動加入台灣繁體中文、經紀業資料及不實廣告防呆規則。
           </p>
         </section>
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.04fr)_minmax(420px,.96fr)]">
-          <section className="builder-panel rounded-[28px] border border-[#d8a1a8]/20 bg-[#45151f]/95 p-5 shadow-[0_22px_70px_rgba(20,0,5,.38)] md:p-7">
+          <section className="builder-panel rounded-[28px] border-4 border-[#ffd633] bg-white p-5 text-[#171717] shadow-[0_22px_70px_rgba(50,0,0,.35)] md:p-7">
             <div className="step-one-heading mb-7 flex items-center gap-3">
               <span className="step">1</span>
               <div>
-                <h3 className="font-black text-[#f1eee7]">
+                <h3 className="font-black text-[#171717]">
                   選擇生成類型與用途
                 </h3>
-                <p className="text-xs text-[#8f9c96]">
+                <p className="text-xs text-[#5f5f5f]">
                   用途會決定提示詞的角色、格式與設計重點
                 </p>
               </div>
@@ -310,46 +310,46 @@ export default function Home() {
               <TabsList className="mode-tabs-list grid h-auto w-full grid-cols-1 gap-3 rounded-2xl bg-transparent p-0 sm:grid-cols-2">
                 <TabsTrigger
                   value="copy"
-                  className="mode-trigger group h-auto min-h-28 items-start justify-start rounded-2xl border border-white/10 bg-[#100b0d] p-4 text-left shadow-none transition-all hover:border-[#b92d35]/60 hover:bg-[#1a1114] data-[state=active]:border-[#e85a63] data-[state=active]:bg-[#7a1e2a] data-[state=active]:shadow-[0_0_0_1px_rgba(232,90,99,.35),0_14px_32px_rgba(0,0,0,.24)]"
+                  className="mode-trigger group h-auto min-h-28 items-start justify-start rounded-2xl border-2 border-black/15 bg-[#f7f7f7] p-4 text-left shadow-none transition-all hover:border-[#e00000] hover:bg-[#fff7d6] data-[state=active]:border-[#111111] data-[state=active]:bg-[#e00000] data-[state=active]:shadow-[0_0_0_3px_#ffd633,0_14px_32px_rgba(0,0,0,.2)]"
                 >
-                  <span className="mode-icon grid size-11 shrink-0 place-items-center rounded-xl bg-[#26181b] text-[#d95a62] group-data-[state=active]:bg-white group-data-[state=active]:text-[#8e2630]">
+                  <span className="mode-icon grid size-11 shrink-0 place-items-center rounded-xl bg-[#111111] text-[#ffd633] group-data-[state=active]:bg-[#ffd633] group-data-[state=active]:text-[#111111]">
                     <FileText className="size-5" />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="flex items-center justify-between gap-2">
-                      <strong className="mode-label text-lg text-[#f3f0e8]">
+                      <strong className="mode-label text-lg text-[#171717] group-data-[state=active]:text-white">
                         生成文案
                       </strong>
                       {mode === "copy" && (
-                        <span className="grid size-5 place-items-center rounded-full bg-[#b92d35] text-white">
+                        <span className="grid size-5 place-items-center rounded-full bg-[#ffd633] text-[#111111]">
                           <Check className="size-3.5" />
                         </span>
                       )}
                     </span>
-                    <span className="mode-desc mt-1.5 block whitespace-normal text-sm font-normal leading-6 text-[#b4beb8] sm:text-[15px]">
+                    <span className="mode-desc mt-1.5 block whitespace-normal text-sm font-normal leading-6 text-[#555555] group-data-[state=active]:text-white/90 sm:text-[15px]">
                       適合591物件介紹、Facebook、LINE、商圈貼文及短影音腳本
                     </span>
                   </span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="image"
-                  className="mode-trigger group h-auto min-h-28 items-start justify-start rounded-2xl border border-white/10 bg-[#100b0d] p-4 text-left shadow-none transition-all hover:border-[#b92d35]/60 hover:bg-[#1a1114] data-[state=active]:border-[#e85a63] data-[state=active]:bg-[#7a1e2a] data-[state=active]:shadow-[0_0_0_1px_rgba(232,90,99,.35),0_14px_32px_rgba(0,0,0,.24)]"
+                  className="mode-trigger group h-auto min-h-28 items-start justify-start rounded-2xl border-2 border-black/15 bg-[#f7f7f7] p-4 text-left shadow-none transition-all hover:border-[#e00000] hover:bg-[#fff7d6] data-[state=active]:border-[#111111] data-[state=active]:bg-[#e00000] data-[state=active]:shadow-[0_0_0_3px_#ffd633,0_14px_32px_rgba(0,0,0,.2)]"
                 >
-                  <span className="mode-icon grid size-11 shrink-0 place-items-center rounded-xl bg-[#26181b] text-[#d95a62] group-data-[state=active]:bg-white group-data-[state=active]:text-[#8e2630]">
+                  <span className="mode-icon grid size-11 shrink-0 place-items-center rounded-xl bg-[#111111] text-[#ffd633] group-data-[state=active]:bg-[#ffd633] group-data-[state=active]:text-[#111111]">
                     <ImageIcon className="size-5" />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="flex items-center justify-between gap-2">
-                      <strong className="mode-label text-lg text-[#f3f0e8]">
+                      <strong className="mode-label text-lg text-[#171717] group-data-[state=active]:text-white">
                         生成圖像
                       </strong>
                       {mode === "image" && (
-                        <span className="grid size-5 place-items-center rounded-full bg-[#b92d35] text-white">
+                        <span className="grid size-5 place-items-center rounded-full bg-[#ffd633] text-[#111111]">
                           <Check className="size-3.5" />
                         </span>
                       )}
                     </span>
-                    <span className="mode-desc mt-1.5 block whitespace-normal text-sm font-normal leading-6 text-[#b4beb8] sm:text-[15px]">
+                    <span className="mode-desc mt-1.5 block whitespace-normal text-sm font-normal leading-6 text-[#555555] group-data-[state=active]:text-white/90 sm:text-[15px]">
                       適合房仲海報、社群首圖、廣告DM、專任委託及開放賞屋
                     </span>
                   </span>
@@ -358,30 +358,30 @@ export default function Home() {
             </Tabs>
             <div className="mb-3 flex items-center justify-between gap-3">
               <div>
-                <p className="text-sm font-black text-[#ece9e1]">
+                <p className="text-sm font-black text-[#171717]">
                   {mode === "copy"
                     ? "選擇文案情境／使用用途"
                     : "選擇圖像情境／使用用途"}
                 </p>
-                <p className="mt-1 text-xs text-[#8f9c96]">
+                <p className="mt-1 text-xs text-[#666666]">
                   目前共有 {uses.length} 種，點選一項即可套用
                 </p>
               </div>
-              <span className="shrink-0 rounded-full bg-[#b92d35]/15 px-2.5 py-1 text-[10px] font-bold text-[#e08086]">
+              <span className="shrink-0 rounded-full bg-[#ffd633] px-2.5 py-1 text-[10px] font-bold text-[#171717]">
                 已選：{uses.find(([id]) => id === useCase)?.[1]}
               </span>
             </div>
-            <div className="grid max-h-52 grid-cols-2 gap-1.5 overflow-y-auto rounded-2xl border border-white/10 bg-[#0a100f] p-2 sm:grid-cols-3">
+            <div className="grid max-h-52 grid-cols-2 gap-1.5 overflow-y-auto rounded-2xl border-2 border-black/10 bg-[#f2f2f2] p-2 sm:grid-cols-3">
               {uses.map(([id, name], index) => (
                 <button
                   key={id}
                   type="button"
                   onClick={() => setUseCase(id)}
                   aria-pressed={useCase === id}
-                  className={`flex min-h-9 items-center gap-1.5 rounded-lg border px-2 py-1.5 text-left text-[11px] font-bold leading-4 transition sm:text-xs ${useCase === id ? "border-[#f0737a] bg-[#b92d35] text-white shadow-[0_0_0_2px_rgba(240,115,122,.22),0_6px_16px_rgba(0,0,0,.2)]" : "border-white/[.07] bg-[#181113] text-[#bdc7c1] hover:border-[#b92d35]/50 hover:bg-[#211417]"}`}
+                  className={`flex min-h-9 items-center gap-1.5 rounded-lg border px-2 py-1.5 text-left text-[11px] font-bold leading-4 transition sm:text-xs ${useCase === id ? "border-[#111111] bg-[#e00000] text-white shadow-[0_0_0_2px_#ffd633,0_6px_16px_rgba(0,0,0,.16)]" : "border-black/10 bg-white text-[#292929] hover:border-[#e00000] hover:bg-[#fff7d6]"}`}
                 >
                   <span
-                    className={`grid size-5 shrink-0 place-items-center rounded-md text-[9px] ${useCase === id ? "bg-[#b92d35] text-white" : "bg-white/[.06] text-[#8f9c96]"}`}
+                    className={`grid size-5 shrink-0 place-items-center rounded-md text-[9px] ${useCase === id ? "bg-[#ffd633] text-[#111111]" : "bg-[#eeeeee] text-[#666666]"}`}
                   >
                     {useCase === id ? <Check className="size-3" /> : index + 1}
                   </span>
@@ -389,12 +389,12 @@ export default function Home() {
                 </button>
               ))}
             </div>
-            <div className="my-8 h-px bg-white/10" />
+            <div className="my-8 h-px bg-black/10" />
             <div className="mb-6 flex items-center gap-3">
               <span className="step">2</span>
               <div>
-                <h3 className="font-black text-[#f1eee7]">貼上物件資料</h3>
-                <p className="text-xs text-[#8f9c96]">
+                <h3 className="font-black text-[#171717]">貼上物件資料</h3>
+                <p className="text-xs text-[#666666]">
                   直接貼上公司系統產生的完整物件資料即可
                 </p>
               </div>
@@ -407,20 +407,20 @@ export default function Home() {
                 placeholder={
                   "請在這裡貼上完整物件資料，例如：\n物件名稱、地點、總價、坪數、格局、樓層、屋齡、車位、特色、生活機能、交通條件及應揭露事項等。"
                 }
-                className="min-h-72 rounded-2xl border-[#d8a1a8]/20 bg-[#270c12] p-4 leading-7 text-[#f7f0ec] md:min-h-80"
+                className="min-h-72 rounded-2xl border-2 border-black/15 bg-white p-4 leading-7 text-[#171717] placeholder:text-[#777777] md:min-h-80"
               />
             </label>
             <div className="flex flex-col">
-              <section className="order-2 mt-4 rounded-2xl border border-[#d8a1a8]/20 bg-[#381019] p-5">
+              <section className="order-2 mt-4 rounded-2xl border-2 border-black/10 bg-[#fffdf5] p-5">
                 <div className="flex items-center gap-3">
                   <span className="step">4</span>
                   <div>
-                    <h3 className="font-black text-[#f1eee7]">聯絡人與經紀業資料</h3>
-                    <p className="text-xs text-[#8f9c96]">資料會記住在這台裝置，下次自動帶入</p>
+                    <h3 className="font-black text-[#171717]">聯絡人與經紀業資料</h3>
+                    <p className="text-xs text-[#666666]">資料會記住在這台裝置，下次自動帶入</p>
                   </div>
                 </div>
-                <div className="mt-3 flex items-start gap-2 rounded-lg border border-[#b92d35]/25 bg-[#b92d35]/[.08] px-3 py-2 text-[10px] leading-4 text-[#bfc8c2]">
-                  <ShieldCheck className="mt-0.5 size-3.5 shrink-0 text-[#d95a62]" />
+                <div className="mt-3 flex items-start gap-2 rounded-lg border border-[#e00000]/25 bg-[#fff3a6] px-3 py-2 text-[10px] leading-4 text-[#333333]">
+                  <ShieldCheck className="mt-0.5 size-3.5 shrink-0 text-[#e00000]" />
                   <span>
                     修改後會自動記錄在這台裝置的瀏覽器，下次開啟時優先使用；不會影響其他使用者。
                   </span>
@@ -441,7 +441,7 @@ export default function Home() {
                       <Input
                         value={data[key]}
                         onChange={(e) => setField(key, e.target.value)}
-                        className="h-9 rounded-lg border-[#d8a1a8]/20 bg-[#240a10] text-sm text-[#f7f0ec]"
+                        className="h-9 rounded-lg border-black/15 bg-white text-sm text-[#171717]"
                       />
                     </label>
                   ))}
@@ -449,13 +449,13 @@ export default function Home() {
               </section>
               {mode === "image" && (
                 <section
-                  className="order-1 mt-4 rounded-2xl border border-[#d8a1a8]/20 bg-[#381019] p-5"
+                  className="order-1 mt-4 rounded-2xl border-2 border-black/10 bg-[#fffdf5] p-5"
                 >
                   <div className="flex items-center gap-3">
                     <span className="step">3</span>
                     <div>
-                      <h3 className="font-black text-[#f1eee7]">圖像輸出規格</h3>
-                      <p className="text-xs text-[#8f9c96]">設定尺寸、風格、配色與照片調整方式</p>
+                      <h3 className="font-black text-[#171717]">圖像輸出規格</h3>
+                      <p className="text-xs text-[#666666]">設定尺寸、風格、配色與照片調整方式</p>
                     </div>
                   </div>
                   <div className="mt-5 grid gap-4 md:grid-cols-3">
@@ -465,7 +465,7 @@ export default function Home() {
                         value={data.size}
                         onValueChange={(value) => setField("size", value)}
                       >
-                        <SelectTrigger className="h-11 w-full rounded-xl border-white/10 bg-[#090f0e] text-[#edf1eb]">
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -500,7 +500,7 @@ export default function Home() {
                             setField("customSize", e.target.value)
                           }
                           placeholder="例：寬600×高120cm，直式"
-                          className="mt-2 border-white/10 bg-[#090f0e] text-[#edf1eb]"
+                          className="mt-2 border-black/15 bg-white text-[#171717]"
                         />
                       )}
                     </label>
@@ -510,7 +510,7 @@ export default function Home() {
                         value={data.style}
                         onChange={(e) => setField("style", e.target.value)}
                         placeholder="例：專業、溫馨、現代、清楚、可信任、科技"
-                        className="border-white/10 bg-[#090f0e] text-[#edf1eb]"
+                        className="border-black/15 bg-white text-[#171717]"
                       />
                     </label>
                     <label>
@@ -519,7 +519,7 @@ export default function Home() {
                         value={data.colors}
                         onChange={(e) => setField("colors", e.target.value)}
                         placeholder="例：紅、綠＋黃、深藍色＋金／古銅、黑灰＋明亮霓虹"
-                        className="border-white/10 bg-[#090f0e] text-[#edf1eb]"
+                        className="border-black/15 bg-white text-[#171717]"
                       />
                     </label>
                     <label>
@@ -530,7 +530,7 @@ export default function Home() {
                           setField("photoAdjust", value)
                         }
                       >
-                        <SelectTrigger className="h-11 w-full rounded-xl border-white/10 bg-[#090f0e] text-[#edf1eb]">
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -557,7 +557,7 @@ export default function Home() {
                           setField("portraitRetouch", value)
                         }
                       >
-                        <SelectTrigger className="h-11 w-full rounded-xl border-white/10 bg-[#090f0e] text-[#edf1eb]">
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -581,7 +581,7 @@ export default function Home() {
                         value={data.fontStyle}
                         onValueChange={(value) => setField("fontStyle", value)}
                       >
-                        <SelectTrigger className="h-11 w-full rounded-xl border-white/10 bg-[#090f0e] text-[#edf1eb]">
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -607,15 +607,15 @@ export default function Home() {
             </div>
           </section>
           <aside className="xl:sticky xl:top-6 xl:self-start">
-            <div className="overflow-hidden rounded-[28px] border border-white/65 bg-[#e8e2de] text-[#30282a] shadow-[0_22px_70px_rgba(20,0,5,.34)]">
-              <div className="flex items-center justify-between border-b border-[#9b8f89]/35 bg-[#d8cfca] px-5 py-5 md:px-7">
+            <div className="overflow-hidden rounded-[28px] border-4 border-[#111111] bg-[#ffd6df] text-[#27171a] shadow-[0_22px_70px_rgba(50,0,0,.34)]">
+              <div className="flex items-center justify-between border-b-2 border-[#e00000]/25 bg-[#ffc1ce] px-5 py-5 md:px-7">
                 <div className="flex items-center gap-3">
-                  <span className="grid size-9 place-items-center rounded-full bg-[#b92d35] font-black text-white">
+                  <span className="grid size-9 place-items-center rounded-full bg-[#e00000] font-black text-white shadow-[0_0_0_3px_#ffd633]">
                     5
                   </span>
                   <div>
                     <h3 className="font-black">完整提示詞</h3>
-                    <p className="text-xs text-[#675c5f]">
+                    <p className="text-xs text-[#6f3944]">
                       內容會隨左側資料即時更新
                     </p>
                   </div>
@@ -624,19 +624,19 @@ export default function Home() {
                   variant="ghost"
                   size="sm"
                   onClick={resetCurrentWork}
-                  className="text-[#675c5f] hover:bg-black/[.06] hover:text-[#30282a]"
+                  className="text-[#6f3944] hover:bg-white/50 hover:text-[#171717]"
                 >
                   <RotateCcw />
                   清除
                 </Button>
               </div>
-              <pre className="max-h-[67vh] min-h-[420px] overflow-auto whitespace-pre-wrap break-words bg-[#eee9e6] px-5 py-6 font-sans text-[13px] leading-7 text-[#30282a] md:min-h-[480px] md:px-7">
+              <pre className="max-h-[67vh] min-h-[420px] overflow-auto whitespace-pre-wrap break-words bg-[#ffe5eb] px-5 py-6 font-sans text-[13px] leading-7 text-[#27171a] md:min-h-[480px] md:px-7">
                 {prompt}
               </pre>
-              <div className="border-t border-[#9b8f89]/35 bg-[#cec4bf] p-4 md:p-5">
+              <div className="border-t-2 border-[#e00000]/20 bg-[#ffc1ce] p-4 md:p-5">
                 <Button
                   onClick={copyPrompt}
-                  className="h-12 w-full rounded-xl bg-[#b92d35] text-base font-black text-white hover:bg-[#cf3c45]"
+                  className="h-12 w-full rounded-xl border-2 border-[#111111] bg-[#e00000] text-base font-black text-white shadow-[0_4px_0_#ffd633] hover:bg-[#c90000]"
                 >
                   {copied ? (
                     <>
@@ -652,10 +652,10 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            <div className="mt-4 flex gap-3 rounded-2xl border border-white/10 bg-[#111816] p-4 text-xs leading-6 text-[#9eaaa4]">
-              <ShieldCheck className="mt-1 size-5 shrink-0 text-[#d95a62]" />
+            <div className="mt-4 flex gap-3 rounded-2xl border-2 border-[#ffd633] bg-[#111111] p-4 text-xs leading-6 text-white/80">
+              <ShieldCheck className="mt-1 size-5 shrink-0 text-[#ffd633]" />
               <p>
-                <strong className="text-[#ece9e1]">刊登前請再核對：</strong>
+                <strong className="text-[#ffd633]">刊登前請再核對：</strong>
                 價格、坪數、電話、用途、學區、交通距離與經紀業資料。AI很會排版，但它不會替你接公平會的電話。
               </p>
             </div>
