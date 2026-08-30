@@ -157,10 +157,6 @@ const savedProfileKeys = [
 ] as const;
 const profileStorageKey = "realty-ai-prompt-builder-profile-v1";
 
-function line(label: string, value: string) {
-  return value.trim() ? `${label}：${value.trim()}` : "";
-}
-
 export default function Home() {
   const [mode, setMode] = useState<Mode>("copy");
   const [useCase, setUseCase] = useState("listing");
@@ -210,18 +206,7 @@ export default function Home() {
     const property =
       data.propertyData.trim() ||
       "（尚未貼上物件資料，資訊不足處請標示待確認）";
-    const contact = [
-      line("聯絡人", data.contactName),
-      line("電話", data.phone),
-      line("品牌", data.brand),
-      line("加盟店", data.branch),
-      line("經紀業名稱", data.company),
-      line("營業地址", data.address),
-      line("經紀人", data.broker),
-      line("經紀人證號", data.license),
-    ]
-      .filter(Boolean)
-      .join("\n");
+    const contact = "聯絡人與經紀業資料已包含在使用者貼上的物件資料內，請依原文呈現，不得自行補造。";
     const resolvedSize =
       data.size === "自訂尺寸"
         ? data.customSize.trim() || "自訂尺寸（待輸入）"
@@ -281,7 +266,7 @@ export default function Home() {
           <div>
             <p className="hero-kicker mb-2 flex items-center gap-2 text-sm font-bold text-[#ffd633]">
               <Sparkles className="size-4" />
-              五個步驟，完成可直接使用的提示詞
+              四個步驟完成可直接使用的提示詞
             </p>
             <h2 className="hero-title max-w-4xl text-3xl font-black leading-tight tracking-[-0.035em] text-white md:text-5xl">
               選用途、填資料，
@@ -401,52 +386,19 @@ export default function Home() {
             </div>
             <label className="block">
               <span className="field-label">物件資料</span>
+              <div className="mb-3 rounded-xl border-2 border-[#111111] bg-[#ffd633] px-4 py-3 text-center text-base font-black leading-6 text-[#d90000] shadow-[0_4px_0_#111111] sm:text-lg">
+                請一定要在此輸入經紀業及經紀人
+              </div>
               <Textarea
                 value={data.propertyData}
                 onChange={(e) => setField("propertyData", e.target.value)}
                 placeholder={
-                  "請在這裡貼上完整物件資料，例如：\n物件名稱、地點、總價、坪數、格局、樓層、屋齡、車位、特色、生活機能、交通條件及應揭露事項等。"
+                  "請在這裡貼上完整物件資料，並包含經紀業及經紀人資料。\n例如：物件名稱、地點、總價、坪數、格局、樓層、屋齡、車位、特色、生活機能、交通條件及應揭露事項等。"
                 }
                 className="min-h-72 rounded-2xl border-2 border-black/15 bg-white p-4 leading-7 text-[#171717] placeholder:text-[#777777] md:min-h-80"
               />
             </label>
             <div className="flex flex-col">
-              <section className="order-2 mt-4 rounded-2xl border-2 border-black/10 bg-[#fffdf5] p-5">
-                <div className="flex items-center gap-3">
-                  <span className="step">4</span>
-                  <div>
-                    <h3 className="font-black text-[#171717]">聯絡人與經紀業資料</h3>
-                    <p className="text-xs text-[#666666]">資料會記住在這台裝置，下次自動帶入</p>
-                  </div>
-                </div>
-                <div className="mt-3 flex items-start gap-2 rounded-lg border border-[#e00000]/25 bg-[#fff3a6] px-3 py-2 text-[10px] leading-4 text-[#333333]">
-                  <ShieldCheck className="mt-0.5 size-3.5 shrink-0 text-[#e00000]" />
-                  <span>
-                    修改後會自動記錄在這台裝置的瀏覽器，下次開啟時優先使用；不會影響其他使用者。
-                  </span>
-                </div>
-                <div className="mt-3 grid gap-2 md:grid-cols-2">
-                  {[
-                    ["contactName", "姓名"],
-                    ["phone", "電話"],
-                    ["brand", "品牌名稱"],
-                    ["branch", "加盟店名稱"],
-                    ["company", "經紀業名稱"],
-                    ["address", "營業地址"],
-                    ["broker", "經紀人"],
-                    ["license", "經紀人證號"],
-                  ].map(([key, label]) => (
-                    <label key={key}>
-                      <span className="field-label">{label}</span>
-                      <Input
-                        value={data[key]}
-                        onChange={(e) => setField(key, e.target.value)}
-                        className="h-9 rounded-lg border-black/15 bg-white text-sm text-[#171717]"
-                      />
-                    </label>
-                  ))}
-                </div>
-              </section>
               {mode === "image" && (
                 <section
                   className="order-1 mt-4 rounded-2xl border-2 border-black/10 bg-[#fffdf5] p-5"
@@ -611,12 +563,12 @@ export default function Home() {
               <div className="flex items-center justify-between border-b-2 border-[#e00000]/25 bg-[#ffc1ce] px-5 py-5 md:px-7">
                 <div className="flex items-center gap-3">
                   <span className="grid size-9 place-items-center rounded-full bg-[#e00000] font-black text-white shadow-[0_0_0_3px_#ffd633]">
-                    5
+                    4
                   </span>
                   <div>
                     <h3 className="font-black">完整提示詞</h3>
                     <p className="text-xs text-[#6f3944]">
-                      內容會隨左側資料即時更新
+                      內容會隨前面輸入的資料即時更新
                     </p>
                   </div>
                 </div>
