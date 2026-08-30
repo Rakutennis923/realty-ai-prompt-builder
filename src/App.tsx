@@ -356,18 +356,18 @@ export default function Home() {
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-            <div className="mb-3 flex items-center justify-between gap-3">
+            <div className="usecase-heading mb-3 flex items-center justify-between gap-3">
               <div>
                 <p className="text-sm font-black text-[#171717]">
                   {mode === "copy"
                     ? "選擇文案情境／使用用途"
                     : "選擇圖像情境／使用用途"}
                 </p>
-                <p className="mt-1 text-xs text-[#666666]">
+                <p className="usecase-count mt-1 text-xs text-[#666666]">
                   目前共有 {uses.length} 種，點選一項即可套用
                 </p>
               </div>
-              <span className="shrink-0 rounded-full bg-[#ffd633] px-2.5 py-1 text-[10px] font-bold text-[#171717]">
+              <span className="usecase-selected shrink-0 rounded-full bg-[#ffd633] px-2.5 py-1 text-[10px] font-bold text-[#171717]">
                 已選：{uses.find(([id]) => id === useCase)?.[1]}
               </span>
             </div>
