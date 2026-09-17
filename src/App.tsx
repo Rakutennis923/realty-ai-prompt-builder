@@ -203,6 +203,40 @@ const portraitDirections: Record<string, string> = {
     "換成正式宴會造型。男性使用合身深色西裝或晚宴服；女性使用剪裁典雅、端莊不暴露的洋裝或套裝。搭配柔和正式燈光與簡潔高雅背景。",
 };
 
+const portraitSkinDirections: Record<string, string> = {
+  不修飾: "保留原始膚況，只校正曝光、白平衡與整體色調。",
+  自然美肌:
+    "進行看得出效果但仍自然的美肌：均勻膚色、降低油光、淡化黑眼圈與暫時性瑕疵、柔化明顯細紋並提亮眼神；保留自然皮膚紋理，不可塑膠感磨皮。",
+  專業精緻美肌:
+    "進行專業形象照等級美肌：改善暗沉、膚色不均、黑眼圈、眼袋、油光與明顯細紋，整理眉毛、髮絲及儀容；效果清楚但必須保留本人真實五官與年齡辨識度。",
+  高質感美肌:
+    "進行高質感雜誌級美肌與精緻光影：膚色明亮均勻、膚質細緻、眼神清晰、輪廓光乾淨；不得改變骨相、臉型或製造失真的陶瓷肌。",
+};
+
+const portraitLookDirections: Record<string, string> = {
+  保留原本氣質: "維持原照片中的年齡感、氣質與個人特色，只提升精神與整潔度。",
+  "自然年輕3至5歲":
+    "透過膚色、疲態、黑眼圈、眼袋、細紋、髮絲與光線調整，自然年輕約3至5歲；不得童顏化、換臉或改變骨相。",
+  帥氣俐落:
+    "呈現成熟帥氣、乾淨俐落、有精神的形象，以服裝剪裁、髮型整理、姿態及光線加強魅力，不得靠改變五官或瘦臉達成。",
+  優雅氣質:
+    "呈現自然優雅、端莊、有氣質的形象，以柔和光線、儀容、姿態與服裝質感提升整體氛圍，不得改變真實面貌。",
+  親切溫暖:
+    "呈現親切、溫暖、容易接近的氣質，使用柔和眼神、自然表情與明亮光線。",
+  自信幹練:
+    "呈現自信、專業、幹練且可信任的形象，以眼神、挺拔姿態、服裝與光線塑造，不得改變臉部結構。",
+};
+
+const portraitSmileDirections: Record<string, string> = {
+  保留原表情: "維持原照片的表情與嘴型。",
+  嘴角微笑: "嘴角輕微上揚，表情沉穩自然，眼神放鬆。",
+  自然微笑: "呈現自然親切的微笑，眼神同步帶有笑意，不僵硬。",
+  自信笑容: "呈現自信、有精神且專業的笑容，嘴型自然，姿態大方。",
+  露牙笑: "呈現自然露牙笑，牙齒排列與嘴部比例合理，不使用過度潔白或假牙般效果。",
+  開朗笑容: "呈現較明顯、開朗有感染力的笑容，保留本人嘴型與臉部特徵。",
+  沉穩不笑: "嘴唇自然閉合，表情沉穩有精神，不嚴肅僵硬。",
+};
+
 const initial: FormData = {
   propertyData: "",
   contactName: "",
@@ -225,6 +259,9 @@ const initial: FormData = {
   portraitGender: "依原照片與使用者描述",
   portraitFraming: "半身形象照",
   portraitBackground: "依所選情境自動設計",
+  portraitSkin: "自然美肌",
+  portraitLook: "保留原本氣質",
+  portraitSmile: "自然微笑",
   fontStyle: "現代粗黑體",
 };
 
@@ -313,7 +350,16 @@ export default function Home() {
     if (mode === "portrait") {
       const portraitNotes =
         data.propertyData.trim() || "無其他需求，依所選情境自然處理。";
-      return `你是一位專業人像攝影師、造型師與高階人像修圖師。\n\n請使用使用者本次上傳的本人照片製作「${title}」。未上傳清晰本人照片時，請先要求使用者上傳，不得憑空生成或使用其他人物代替。\n\n【最高優先人物保真規則】\n1. 上傳照片是唯一人物依據，必須保留本人真實辨識度。\n2. 不得重繪或更換臉孔；不得改變臉型、眉眼、眼距、鼻形、嘴形、耳朵、下巴、髮際線或本人原有眼鏡。\n3. 不得瘦臉、削下巴、放大眼睛、墊高鼻樑、改變身形比例或把人物修成另一個人。\n4. 只能進行自然膚色、亮度、白平衡、降噪、暫時性瑕疵與輕微膚質修飾；保留毛孔、細紋、年齡特徵及真實皮膚質感。\n5. 只有所選情境明確要求時，才可調整服裝、背景、光線、姿勢與構圖；不得自行增加其他人物、文字、Logo、名牌、電話、QR Code、地標或未提供的物件。\n\n【修改情境】\n${direction}\n\n【修改規格】\n性別造型：${data.portraitGender}\n構圖範圍：${data.portraitFraming}\n背景方式：${data.portraitBackground}\n修飾程度：${data.portraitRetouch}\n\n【其他需求】\n${portraitNotes}\n\n【輸出前檢查】\n確認人物仍可被辨識為同一人，五官、臉型、眼鏡與年齡特徵未被改變；確認只修改指定項目，繁體中文與所有細節均正確。`;
+      const skinDirection =
+        portraitSkinDirections[data.portraitSkin] ||
+        portraitSkinDirections["自然美肌"];
+      const lookDirection =
+        portraitLookDirections[data.portraitLook] ||
+        portraitLookDirections["保留原本氣質"];
+      const smileDirection =
+        portraitSmileDirections[data.portraitSmile] ||
+        portraitSmileDirections["自然微笑"];
+      return `你是一位專業人像攝影師、造型師與高階人像修圖師。\n\n請使用使用者本次上傳的本人照片製作「${title}」。未上傳清晰本人照片時，請先要求使用者上傳，不得憑空生成或使用其他人物代替。\n\n【最高優先人物保真規則】\n1. 上傳照片是唯一人物依據，必須保留本人真實辨識度。\n2. 不得重繪或更換臉孔；不得改變臉型、眉眼、眼距、鼻形、嘴形、耳朵、下巴、髮際線或本人原有眼鏡。\n3. 不得瘦臉、削下巴、放大眼睛、墊高鼻樑、改變身形比例或把人物修成另一個人。\n4. 美肌可以明顯改善膚色不均、暗沉、油光、黑眼圈、眼袋、暫時性瑕疵與明顯細紋，但不得改變骨相、五官比例及本人辨識度；保留自然皮膚紋理，避免塑膠感與過度磨皮。\n5. 調整笑容時只能自然改變嘴角、嘴唇與眼神表情，必須維持本人嘴型、牙齒比例及臉部特徵，不得造成陌生臉孔。\n6. 只有所選情境明確要求時，才可調整服裝、背景、光線、姿勢與構圖；不得自行增加其他人物、文字、Logo、名牌、電話、QR Code、地標或未提供的物件。\n\n【修改情境】\n${direction}\n\n【修改規格】\n性別造型：${data.portraitGender}\n構圖範圍：${data.portraitFraming}\n背景方式：${data.portraitBackground}\n美肌效果：${data.portraitSkin}。${skinDirection}\n形象氣質：${data.portraitLook}。${lookDirection}\n笑容表情：${data.portraitSmile}。${smileDirection}\n\n【其他需求】\n${portraitNotes}\n\n【輸出前檢查】\n確認美肌、氣質與笑容效果已清楚呈現，同時人物仍可被辨識為同一人；五官、臉型、眼鏡與核心年齡特徵未被改變；確認只修改指定項目，繁體中文與所有細節均正確。`;
     }
     const contact = "聯絡人與經紀業資料已包含在使用者貼上的物件資料內，請依原文呈現，不得自行補造。";
     const resolvedSize =
@@ -784,11 +830,11 @@ export default function Home() {
                     <div>
                       <h3 className="font-black text-[#171717]">人像修改規格</h3>
                       <p className="text-xs text-[#666666]">
-                        設定性別造型、構圖、背景與自然修飾程度
+                        設定美肌、氣質、笑容、造型、構圖與背景
                       </p>
                     </div>
                   </div>
-                  <div className="mt-5 grid gap-4 md:grid-cols-2">
+                  <div className="mt-5 grid gap-4 md:grid-cols-3">
                     <label>
                       <span className="field-label">性別造型</span>
                       <Select
@@ -862,11 +908,11 @@ export default function Home() {
                       </Select>
                     </label>
                     <label>
-                      <span className="field-label">修飾程度</span>
+                      <span className="field-label">美肌效果</span>
                       <Select
-                        value={data.portraitRetouch}
+                        value={data.portraitSkin}
                         onValueChange={(value) =>
-                          setField("portraitRetouch", value)
+                          setField("portraitSkin", value)
                         }
                       >
                         <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
@@ -876,8 +922,63 @@ export default function Home() {
                           {[
                             "不修飾",
                             "自然美肌",
-                            "專業形象修飾",
-                            "精緻美肌",
+                            "專業精緻美肌",
+                            "高質感美肌",
+                          ].map((item) => (
+                            <SelectItem key={item} value={item}>
+                              {item}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </label>
+                    <label>
+                      <span className="field-label">形象氣質</span>
+                      <Select
+                        value={data.portraitLook}
+                        onValueChange={(value) =>
+                          setField("portraitLook", value)
+                        }
+                      >
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[
+                            "保留原本氣質",
+                            "自然年輕3至5歲",
+                            "帥氣俐落",
+                            "優雅氣質",
+                            "親切溫暖",
+                            "自信幹練",
+                          ].map((item) => (
+                            <SelectItem key={item} value={item}>
+                              {item}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </label>
+                    <label>
+                      <span className="field-label">笑容表情</span>
+                      <Select
+                        value={data.portraitSmile}
+                        onValueChange={(value) =>
+                          setField("portraitSmile", value)
+                        }
+                      >
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[
+                            "保留原表情",
+                            "嘴角微笑",
+                            "自然微笑",
+                            "自信笑容",
+                            "露牙笑",
+                            "開朗笑容",
+                            "沉穩不笑",
                           ].map((item) => (
                             <SelectItem key={item} value={item}>
                               {item}
