@@ -216,7 +216,9 @@ const portraitSkinDirections: Record<string, string> = {
 const portraitLookDirections: Record<string, string> = {
   保留原本氣質: "維持原照片中的年齡感、氣質與個人特色，只提升精神與整潔度。",
   "自然年輕3至5歲":
-    "透過膚色、疲態、黑眼圈、眼袋、細紋、髮絲與光線調整，自然年輕約3至5歲；不得童顏化、換臉或改變骨相。",
+    "自然淡化黑眼圈、眼袋、魚尾紋、抬頭紋、法令紋、嘴角紋與輕微鬆弛，改善暗沉並提亮眼神，使面貌自然年輕約3至5歲；保留骨相、臉型、五官比例與本人特色，不得童顏化或換臉。",
+  "明顯年輕5至8歲":
+    "較明顯改善黑眼圈、眼袋、魚尾紋、抬頭紋、法令紋、嘴角紋、膚色暗沉與輕微鬆弛，適度提升肌膚緊緻度與精神，使面貌年輕約5至8歲；仍須維持同一人的骨相、臉型、眼鼻嘴比例與成熟辨識度。",
   帥氣俐落:
     "呈現成熟帥氣、乾淨俐落、有精神的形象，以服裝剪裁、髮型整理、姿態及光線加強魅力，不得靠改變五官或瘦臉達成。",
   優雅氣質:
@@ -225,6 +227,19 @@ const portraitLookDirections: Record<string, string> = {
     "呈現親切、溫暖、容易接近的氣質，使用柔和眼神、自然表情與明亮光線。",
   自信幹練:
     "呈現自信、專業、幹練且可信任的形象，以眼神、挺拔姿態、服裝與光線塑造，不得改變臉部結構。",
+};
+
+const portraitHairDirections: Record<string, string> = {
+  年輕化時自然加深髮色:
+    "若選擇年輕化，將白髮自然減少約50%至70%，髮色調整為帶有層次的自然黑或深棕色；若未選擇年輕化則保留原髮色。不得使用死黑色塊，也不得改變髮際線、髮型走向或憑空增加大量髮量。",
+  保留原髮色:
+    "完整保留原照片髮色與白髮比例，只整理零亂髮絲並改善光澤。",
+  自然減少白髮:
+    "適度減少約40%至60%的白髮，保留少量自然銀白層次，使髮色較年輕但不突兀。",
+  自然黑髮:
+    "將髮色調整為具有真實明暗層次的自然黑色，避免過度濃黑或像假髮。",
+  深棕髮色:
+    "將髮色調整為低調自然的深棕色，與膚色、眉毛及整體光線協調。",
 };
 
 const portraitSmileDirections: Record<string, string> = {
@@ -261,6 +276,7 @@ const initial: FormData = {
   portraitBackground: "依所選情境自動設計",
   portraitSkin: "自然美肌",
   portraitLook: "保留原本氣質",
+  portraitHair: "年輕化時自然加深髮色",
   portraitSmile: "自然微笑",
   fontStyle: "現代粗黑體",
 };
@@ -356,10 +372,13 @@ export default function Home() {
       const lookDirection =
         portraitLookDirections[data.portraitLook] ||
         portraitLookDirections["保留原本氣質"];
+      const hairDirection =
+        portraitHairDirections[data.portraitHair] ||
+        portraitHairDirections["年輕化時自然加深髮色"];
       const smileDirection =
         portraitSmileDirections[data.portraitSmile] ||
         portraitSmileDirections["自然微笑"];
-      return `你是一位專業人像攝影師、造型師與高階人像修圖師。\n\n請使用使用者本次上傳的本人照片製作「${title}」。未上傳清晰本人照片時，請先要求使用者上傳，不得憑空生成或使用其他人物代替。\n\n【最高優先人物保真規則】\n1. 上傳照片是唯一人物依據，必須保留本人真實辨識度。\n2. 不得重繪或更換臉孔；不得改變臉型、眉眼、眼距、鼻形、嘴形、耳朵、下巴、髮際線或本人原有眼鏡。\n3. 不得瘦臉、削下巴、放大眼睛、墊高鼻樑、改變身形比例或把人物修成另一個人。\n4. 美肌可以明顯改善膚色不均、暗沉、油光、黑眼圈、眼袋、暫時性瑕疵與明顯細紋，但不得改變骨相、五官比例及本人辨識度；保留自然皮膚紋理，避免塑膠感與過度磨皮。\n5. 調整笑容時只能自然改變嘴角、嘴唇與眼神表情，必須維持本人嘴型、牙齒比例及臉部特徵，不得造成陌生臉孔。\n6. 只有所選情境明確要求時，才可調整服裝、背景、光線、姿勢與構圖；不得自行增加其他人物、文字、Logo、名牌、電話、QR Code、地標或未提供的物件。\n\n【修改情境】\n${direction}\n\n【修改規格】\n性別造型：${data.portraitGender}\n構圖範圍：${data.portraitFraming}\n背景方式：${data.portraitBackground}\n美肌效果：${data.portraitSkin}。${skinDirection}\n形象氣質：${data.portraitLook}。${lookDirection}\n笑容表情：${data.portraitSmile}。${smileDirection}\n\n【其他需求】\n${portraitNotes}\n\n【輸出前檢查】\n確認美肌、氣質與笑容效果已清楚呈現，同時人物仍可被辨識為同一人；五官、臉型、眼鏡與核心年齡特徵未被改變；確認只修改指定項目，繁體中文與所有細節均正確。`;
+      return `你是一位專業人像攝影師、造型師與高階人像修圖師。\n\n請使用使用者本次上傳的本人照片製作「${title}」。未上傳清晰本人照片時，請先要求使用者上傳，不得憑空生成或使用其他人物代替。\n\n【最高優先人物保真規則】\n1. 上傳照片是唯一人物依據，必須保留本人真實辨識度。\n2. 不得重繪或更換臉孔；不得改變臉型、眉眼、眼距、鼻形、嘴形、耳朵、下巴、髮際線或本人原有眼鏡。\n3. 不得瘦臉、削下巴、放大眼睛、墊高鼻樑、改變身形比例或把人物修成另一個人。\n4. 美肌可以明顯改善膚色不均、暗沉、油光、黑眼圈、眼袋、暫時性瑕疵與明顯細紋，但不得改變骨相、五官比例及本人辨識度；保留自然皮膚紋理，避免塑膠感與過度磨皮。\n5. 年輕化只能改善疲態、紋路、暗沉與輕微鬆弛，並讓髮色與面貌協調；不得把成年人童顏化、改變族群特徵或變成另一個人。\n6. 調整笑容時只能自然改變嘴角、嘴唇與眼神表情，必須維持本人嘴型、牙齒比例及臉部特徵，不得造成陌生臉孔。\n7. 只有所選情境明確要求時，才可調整服裝、背景、光線、姿勢與構圖；不得自行增加其他人物、文字、Logo、名牌、電話、QR Code、地標或未提供的物件。\n\n【修改情境】\n${direction}\n\n【修改規格】\n性別造型：${data.portraitGender}\n構圖範圍：${data.portraitFraming}\n背景方式：${data.portraitBackground}\n美肌效果：${data.portraitSkin}。${skinDirection}\n形象氣質：${data.portraitLook}。${lookDirection}\n髮色處理：${data.portraitHair}。${hairDirection}\n笑容表情：${data.portraitSmile}。${smileDirection}\n\n【其他需求】\n${portraitNotes}\n\n【輸出前檢查】\n確認美肌、氣質、髮色與笑容效果已清楚呈現；若選擇年輕化，確認眼袋、黑眼圈、細紋、法令紋、暗沉及輕微鬆弛已按程度自然改善，髮色也與年輕後的面貌協調；同時人物仍可被辨識為同一人，五官、骨相、臉型、眼鏡與髮際線未被改變。確認只修改指定項目，繁體中文與所有細節均正確。`;
     }
     const contact = "聯絡人與經紀業資料已包含在使用者貼上的物件資料內，請依原文呈現，不得自行補造。";
     const resolvedSize =
@@ -830,7 +849,7 @@ export default function Home() {
                     <div>
                       <h3 className="font-black text-[#171717]">人像修改規格</h3>
                       <p className="text-xs text-[#666666]">
-                        設定美肌、氣質、笑容、造型、構圖與背景
+                        設定美肌、氣質、髮色、笑容、造型、構圖與背景
                       </p>
                     </div>
                   </div>
@@ -947,10 +966,37 @@ export default function Home() {
                           {[
                             "保留原本氣質",
                             "自然年輕3至5歲",
+                            "明顯年輕5至8歲",
                             "帥氣俐落",
                             "優雅氣質",
                             "親切溫暖",
                             "自信幹練",
+                          ].map((item) => (
+                            <SelectItem key={item} value={item}>
+                              {item}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </label>
+                    <label>
+                      <span className="field-label">髮色處理</span>
+                      <Select
+                        value={data.portraitHair}
+                        onValueChange={(value) =>
+                          setField("portraitHair", value)
+                        }
+                      >
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[
+                            "年輕化時自然加深髮色",
+                            "保留原髮色",
+                            "自然減少白髮",
+                            "自然黑髮",
+                            "深棕髮色",
                           ].map((item) => (
                             <SelectItem key={item} value={item}>
                               {item}
