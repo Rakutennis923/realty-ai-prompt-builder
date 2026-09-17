@@ -107,6 +107,7 @@ summary { list-style:none; }
 summary::-webkit-details-marker { display:none; }
 summary::after { content:"＋"; float:right; color:#e00000; }
 details[open] summary::after { content:"－"; }
+.multi-select[open] summary { border-color:#e00000; box-shadow:0 0 0 2px rgba(224,0,0,.12); }
 ::selection { background:#e00000; color:#ffffff; }
 
 @media (max-width: 639px) {
@@ -136,13 +137,12 @@ details[open] summary::after { content:"－"; }
   .step-one-heading .step { width: 1.8rem; height: 1.8rem; font-size: .8rem; }
   .step-one-heading h3 { font-size: .9rem; line-height: 1.2rem; white-space: normal; }
   .step-one-heading p { margin-top: .15rem; font-size: .65rem; line-height: .95rem; white-space: normal; }
-  .mode-tabs { position: relative; z-index: 1; width: 100%; min-width: 0; margin-bottom: 1rem; }
+  .mode-tabs { position: relative; z-index: 1; width: 100%; min-width: 0; margin-bottom: 1.5rem; }
   .mode-tabs-list { width: 100%; min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: .55rem; }
-  .mode-trigger { width: 100%; min-width: 0; height: 7.5rem; min-height: 7.5rem; max-height: 7.5rem; padding: .7rem; gap: .25rem; border-radius: .85rem; flex-direction: column; align-items: flex-start; justify-content: flex-start; overflow: hidden; }
+  .mode-trigger { width: 100%; min-width: 0; height: 3.4rem; min-height: 3.4rem; max-height: 3.4rem; padding: .6rem .75rem; gap: .25rem; border-radius: .85rem; align-items: center; justify-content: center; overflow: hidden; }
   .mode-trigger > span:last-child { width: 100%; min-width: 0; }
   .mode-icon { display: none; }
-  .mode-label { display: block; max-width: 100%; overflow: visible; font-size: .95rem; line-height: 1.2rem; white-space: normal; text-overflow: clip; }
-  .mode-desc { margin-top: .35rem; font-size: .62rem; line-height: .95rem; display: block; white-space: normal; overflow: visible; }
+  .mode-label { display: block; max-width: 100%; overflow: visible; font-size: .95rem; line-height: 1.2rem; white-space: nowrap; text-overflow: clip; }
   .mode-trigger[data-state="active"] { box-shadow: 0 0 0 2px rgba(255,255,255,.16), 0 8px 20px rgba(0,0,0,.24); }
   .usecase-heading { align-items: center; gap: .4rem; }
   .usecase-heading > div { min-width: 0; }

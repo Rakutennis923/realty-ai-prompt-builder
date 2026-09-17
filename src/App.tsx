@@ -62,6 +62,23 @@ const imageUses = [
   ["personal-brand", "個人品牌＋物件海報"],
 ] as const;
 
+const visualStyleOptions = [
+  "專業",
+  "溫馨",
+  "現代",
+  "清楚",
+  "可信任",
+  "科技",
+] as const;
+
+const colorOptions = [
+  "紅",
+  "綠＋黃",
+  "深藍色＋金／古銅",
+  "黑灰＋明亮霓虹",
+  "自訂",
+] as const;
+
 const copyDirections: Record<string, string> = {
   listing:
     "撰寫5個20字內標題、100字精簡版、300字完整版、6個條列特色，以及自然的預約賞屋結尾。",
@@ -86,11 +103,11 @@ const copyDirections: Record<string, string> = {
 
 const imageDirections: Record<string, string> = {
   standard:
-    "物件照片占60%，以主標題、總價、坪數格局、4項特色、聯絡資訊建立清楚閱讀層級。",
+    "物件照片占60%，以主標題及使用者已提供的總價、坪數格局、特色與聯絡資訊建立清楚閱讀層級；未提供的項目直接省略。",
   "fb-poster":
     "前兩秒能看見物件名稱、總價及最大特色；畫面明亮、專業、有朝氣，適合手機社群瀏覽。",
   "line-poster":
-    "版面極簡直接，總價與電話最大；只保留地點、坪數、格局、車位和4項特色。",
+    "版面極簡直接，僅呈現使用者已提供的總價、電話、地點、坪數、格局、車位和特色；未提供的項目直接省略。",
   "591-cover":
     "房屋照片為主，文字不超過畫面20%；只放短標題、總價、格局與一項核心賣點。",
   luxury:
@@ -100,7 +117,7 @@ const imageDirections: Record<string, string> = {
   family:
     "以生活空間升級為主題，突出房間數、收納、停車及便利性，風格成熟溫暖、不卡通化。",
   transit:
-    "加入簡潔都市感與交通圖示，清楚區分已通車、施工中與規劃中建設，距離只採用已提供資料。",
+    "採簡潔都市感；只有使用者提供可核實的交通資料或圖像時，才可呈現交通資訊或圖示，並清楚區分已通車、施工中與規劃中建設。",
   school:
     "風格清新安心，以家庭客群為主；不得使用保證入學或永久學區等文字，加入學區查證提醒。",
   apartment:
@@ -121,9 +138,9 @@ const imageDirections: Record<string, string> = {
   exclusive:
     "突出專任委託、完整服務與專人負責，品牌標示醒目但不得遮住房屋主體。",
   "open-house":
-    "日期、時間、地點與預約電話最醒目，搭配日曆、時鐘與定位圖示，呈現明亮活動感。",
+    "僅將使用者已提供的日期、時間、地點與預約電話做醒目編排；未提供的資料或圖示不得補入，整體呈現明亮活動感。",
   "personal-brand":
-    "物件仍是主角，房仲人物占比不超過25%；人物五官與年齡保持原貌，呈現親切專業。",
+    "物件仍是主角；只有使用者實際上傳人物照片時才可放入人物，人物占比不超過25%，並保持五官與年齡原貌。",
 };
 
 const initial: FormData = {
@@ -138,8 +155,9 @@ const initial: FormData = {
   license: "(99)桃市經字第001151號",
   size: "直式4:5（1080×1350，社群貼文）",
   customSize: "",
-  style: "專業、溫馨、現代、清楚、可信任、科技",
-  colors: "紅、綠＋黃、深藍色＋金／古銅、黑灰＋明亮霓虹",
+  style: "專業、溫馨、現代、清楚、可信任",
+  colors: "紅",
+  customColors: "",
   photoAdjust: "自然明亮",
   portraitRetouch: "自然美肌",
   fontStyle: "現代粗黑體",
@@ -166,6 +184,16 @@ export default function Home() {
   const uses = mode === "copy" ? copyUses : imageUses;
   const setField = (key: string, value: string) =>
     setData((old) => ({ ...old, [key]: value }));
+  const toggleStyle = (style: string) => {
+    const selected = data.style
+      .split("、")
+      .map((item) => item.trim())
+      .filter(Boolean);
+    const next = selected.includes(style)
+      ? selected.filter((item) => item !== style)
+      : [...selected, style];
+    setField("style", next.join("、"));
+  };
   const changeMode = (value: string) => {
     const next = value as Mode;
     setMode(next);
@@ -211,11 +239,15 @@ export default function Home() {
       data.size === "自訂尺寸"
         ? data.customSize.trim() || "自訂尺寸（待輸入）"
         : data.size || "直式4:5（1080×1350）";
+    const resolvedColors =
+      data.colors === "自訂"
+        ? data.customColors.trim() || "自訂配色（待輸入）"
+        : data.colors || "依物件照片與品牌識別協調配色";
     const imageSpec =
       mode === "image"
-        ? `\n\n【輸出與設計規格】\n尺寸比例：${resolvedSize}\n視覺風格：${data.style || "專業、現代、清楚、可信任"}\n品牌色：${data.colors || "依物件照片與品牌識別協調配色"}\n物件照片微調：${data.photoAdjust}\n人物照片修飾：${data.portraitRetouch}\n海報字體風格：${data.fontStyle}\n請使用使用者上傳的真實物件照片與人物照片。物件照片僅能依所選風格調整明亮度、白平衡、色調、對比與飽和度，不得改變建築外觀、室內格局、空間比例、窗外景觀、固定設施或屋況。若有人物照片，僅依所選程度進行自然膚色、明亮度、輕微膚質與儀容修飾，必須保留本人五官、臉型、年齡特徵及真實辨識度。字體以所選風格呈現，優先確保繁體中文正確、清晰可讀，不要求模仿特定受著作權保護的字型。四周保留安全留白，電話、價格、坪數及證號不得變形。`
+        ? `\n\n【輸出與設計規格】\n尺寸比例：${resolvedSize}\n視覺風格：${data.style || "專業、現代、清楚、可信任"}\n品牌色：${resolvedColors}\n物件照片微調：${data.photoAdjust}\n人物照片修飾：${data.portraitRetouch}\n海報字體風格：${data.fontStyle}\n只能使用使用者實際上傳的物件照片與人物照片。未上傳人物照片時，禁止生成真人、虛構人物、人物剪影或預留人物位置。物件照片僅能依所選風格調整明亮度、白平衡、色調、對比與飽和度，不得改變建築外觀、室內格局、空間比例、窗外景觀、固定設施或屋況。若有人物照片，僅依所選程度進行自然膚色、明亮度、輕微膚質與儀容修飾，必須保留本人五官、臉型、年齡特徵及真實辨識度。字體以所選風格呈現，優先確保繁體中文正確、清晰可讀，不要求模仿特定受著作權保護的字型。四周保留安全留白；電話、價格、坪數及證號只有在使用者提供時才可呈現，且不得變形。`
         : "";
-    return `${role}\n\n請依照以下資料製作「${title}」。\n\n【任務要求】\n${direction}${imageSpec}\n\n【物件資料】\n${property}\n\n【聯絡及經紀業資料】\n${contact || "（尚未填寫）"}\n\n【台灣房仲廣告與法規防呆規則】\n1. 僅能使用使用者提供且可查證的資料；不得自行虛構或推測價格、面積、格局、用途、分區、建照或使照、學區、交通距離與時間、公共建設、屋況、景觀、投報率、成交紀錄、銷售紀錄或買方人數。資料不足時標示「待確認」。\n2. 捷運、輕軌或其他交通建設必須依官方最新公告標示狀態：已營運才可寫「已通車」；施工中的路線或車站必須明確寫「興建中」或「施工中」；尚未施工者必須明確寫「規劃中」。不得把未完成建設寫成已完工、已通車或可立即使用。\n3. 規劃中的路線、車站或站址若尚未經主管機關正式核定，必須註明「路線／站址尚未定案」；不得以確定語氣稱為「捷運站」或「預定站」，也不得宣稱步行分鐘數、距離、完工日期或通車日期。興建中的完工或通車時程僅能引用官方公告，並註明可能調整，不得保證。\n4. 物件面積須依權狀、謄本或可查證資料呈現，並清楚區分主建物、附屬建物、共有部分及車位；不得把公設、車位或無合法依據的增建面積包裝成室內實坪或可使用面積。\n5. 建物用途、土地使用分區、可否作住宅、營業、分割、改建或增建，須符合登記謄本、使用執照及主管機關規定；不得把工業、商業或其他非住宅用途誤導為合法住宅，也不得保證未來可變更用途。\n6. 學區、生活機能、道路距離、步行或車程時間須有可查證依據；若呈現距離或時間，須交代起訖點及衡量方式，不得以未確認資料宣稱「明星學區」「捷運幾分鐘」或「永久景觀」。\n7. 價格、原價、折扣、最低價、租金收益、投報率、增值性及稀有性須有客觀證據；不得使用「保證增值、穩賺、絕對最低價、唯一釋出、保證入學、零風險」等無法證明或保證結果的字句。\n8. 照片、格局圖、位置圖、示意圖及AI生成圖不得與實際物件或合法圖說不符。物件照片只能調整明亮度、白平衡、色調、對比與飽和度，不得移除瑕疵、改變建築外觀、室內格局、空間比例、固定設施、窗外景觀或周邊環境；示意內容須清楚標示「示意圖」。\n9. 不得隱匿足以影響交易判斷的重要資訊；聯絡人、經紀業名稱、經紀人及證號等資料，僅依使用者提供內容原樣呈現，不得自行補造。\n10. 輸出前逐項核對物件資料、圖片與官方資料；有疑義一律寫「待確認」，並提醒發布者於刊登前依權狀、謄本、使用執照、主管機關公告及個案事實完成人工查核。`;
+    return `${role}\n\n請依照以下資料製作「${title}」。\n\n【最高優先來源限制】\n只能使用使用者本次明確提供的文字、數據、照片與附件。凡未提供的資料或元素一律不得出現在文案、腳本、版面或圖像中，也不得自行搜尋、推測、補造、預留位置或用示意內容代替。包括但不限於：人物或人物照片、電話、地址、QR Code、Logo、地圖、位置圖、捷運圖、車站、交通路線、學區、建設、景觀、家具、車輛及周邊設施。即使所選情境通常需要該元素，只要使用者沒有提供，就必須直接省略；不得為了版面完整而自行增加。\n\n【任務要求】\n${direction}${imageSpec}\n\n【物件資料】\n${property}\n\n【聯絡及經紀業資料】\n${contact || "（尚未填寫）"}\n\n【台灣房仲廣告與法規防呆規則】\n1. 僅能使用使用者提供且可查證的資料；不得自行虛構或推測價格、面積、格局、用途、分區、建照或使照、學區、交通距離與時間、公共建設、屋況、景觀、投報率、成交紀錄、銷售紀錄或買方人數。資料不足時直接省略；只有使用者要求列出缺漏資料時，才可標示「待確認」。\n2. 未提供的資料或視覺元素不得生成或加入，包括人物、電話、地址、QR Code、Logo、地圖、位置圖、捷運圖、交通圖示、車站、路線、學區、家具、車輛及周邊設施；不得以示意圖、裝飾圖示、假資料或預留空間替代。\n3. 捷運、輕軌或其他交通建設只有在使用者提供可核實資料時才可呈現，並須依官方最新公告標示狀態：已營運才可寫「已通車」；施工中的路線或車站必須明確寫「興建中」或「施工中」；尚未施工者必須明確寫「規劃中」。不得把未完成建設寫成已完工、已通車或可立即使用。\n4. 規劃中的路線、車站或站址若尚未經主管機關正式核定，必須註明「路線／站址尚未定案」；不得以確定語氣稱為「捷運站」或「預定站」，也不得宣稱步行分鐘數、距離、完工日期或通車日期。興建中的完工或通車時程僅能引用官方公告，並註明可能調整，不得保證。\n5. 物件面積須依權狀、謄本或可查證資料呈現，並清楚區分主建物、附屬建物、共有部分及車位；不得把公設、車位或無合法依據的增建面積包裝成室內實坪或可使用面積。\n6. 建物用途、土地使用分區、可否作住宅、營業、分割、改建或增建，須符合登記謄本、使用執照及主管機關規定；不得把工業、商業或其他非住宅用途誤導為合法住宅，也不得保證未來可變更用途。\n7. 學區、生活機能、道路距離、步行或車程時間須有可查證依據；若呈現距離或時間，須交代起訖點及衡量方式，不得以未確認資料宣稱「明星學區」「捷運幾分鐘」或「永久景觀」。\n8. 價格、原價、折扣、最低價、租金收益、投報率、增值性及稀有性須有客觀證據；不得使用「保證增值、穩賺、絕對最低價、唯一釋出、保證入學、零風險」等無法證明或保證結果的字句。\n9. 照片、格局圖、位置圖、示意圖及AI生成圖不得與實際物件或合法圖說不符。物件照片只能調整明亮度、白平衡、色調、對比與飽和度，不得移除瑕疵、改變建築外觀、室內格局、空間比例、固定設施、窗外景觀或周邊環境；只有使用者明確要求且提供依據時，才可加入清楚標示的示意內容。\n10. 不得隱匿足以影響交易判斷的重要資訊；聯絡人、經紀業名稱、經紀人及證號等資料，僅依使用者提供內容原樣呈現，不得自行補造。\n11. 輸出前逐項核對物件資料、圖片與官方資料；發現來源未提供或無法核實的內容一律刪除，並提醒發布者於刊登前依權狀、謄本、使用執照、主管機關公告及個案事實完成人工查核。`;
   }, [mode, useCase, data, uses]);
 
   async function copyPrompt() {
@@ -291,13 +323,13 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <Tabs value={mode} onValueChange={changeMode} className="mode-tabs mb-6">
+            <Tabs value={mode} onValueChange={changeMode} className="mode-tabs mb-8">
               <TabsList className="mode-tabs-list grid h-auto w-full grid-cols-1 gap-3 rounded-2xl bg-transparent p-0 sm:grid-cols-2">
                 <TabsTrigger
                   value="copy"
-                  className="mode-trigger group h-auto min-h-28 items-start justify-start rounded-2xl border-2 border-black/15 bg-[#f7f7f7] p-4 text-left shadow-none transition-all hover:border-[#e00000] hover:bg-[#fff7d6] data-[state=active]:border-[#111111] data-[state=active]:bg-[#e00000] data-[state=active]:shadow-[0_0_0_3px_#ffd633,0_14px_32px_rgba(0,0,0,.2)]"
+                  className="mode-trigger group h-16 min-h-16 items-center justify-start rounded-2xl border-2 border-black/15 bg-[#f7f7f7] px-4 py-2 text-left shadow-none transition-all hover:border-[#e00000] hover:bg-[#fff7d6] data-[state=active]:border-[#111111] data-[state=active]:bg-[#e00000] data-[state=active]:shadow-[0_0_0_3px_#ffd633,0_10px_24px_rgba(0,0,0,.18)]"
                 >
-                  <span className="mode-icon grid size-11 shrink-0 place-items-center rounded-xl bg-[#111111] text-[#ffd633] group-data-[state=active]:bg-[#ffd633] group-data-[state=active]:text-[#111111]">
+                  <span className="mode-icon grid size-9 shrink-0 place-items-center rounded-xl bg-[#111111] text-[#ffd633] group-data-[state=active]:bg-[#ffd633] group-data-[state=active]:text-[#111111]">
                     <FileText className="size-5" />
                   </span>
                   <span className="min-w-0 flex-1">
@@ -311,16 +343,13 @@ export default function Home() {
                         </span>
                       )}
                     </span>
-                    <span className="mode-desc mt-1.5 block whitespace-normal text-sm font-normal leading-6 text-[#555555] group-data-[state=active]:text-white/90 sm:text-[15px]">
-                      適合591物件介紹、Facebook、LINE、商圈貼文及短影音腳本
-                    </span>
                   </span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="image"
-                  className="mode-trigger group h-auto min-h-28 items-start justify-start rounded-2xl border-2 border-black/15 bg-[#f7f7f7] p-4 text-left shadow-none transition-all hover:border-[#e00000] hover:bg-[#fff7d6] data-[state=active]:border-[#111111] data-[state=active]:bg-[#e00000] data-[state=active]:shadow-[0_0_0_3px_#ffd633,0_14px_32px_rgba(0,0,0,.2)]"
+                  className="mode-trigger group h-16 min-h-16 items-center justify-start rounded-2xl border-2 border-black/15 bg-[#f7f7f7] px-4 py-2 text-left shadow-none transition-all hover:border-[#e00000] hover:bg-[#fff7d6] data-[state=active]:border-[#111111] data-[state=active]:bg-[#e00000] data-[state=active]:shadow-[0_0_0_3px_#ffd633,0_10px_24px_rgba(0,0,0,.18)]"
                 >
-                  <span className="mode-icon grid size-11 shrink-0 place-items-center rounded-xl bg-[#111111] text-[#ffd633] group-data-[state=active]:bg-[#ffd633] group-data-[state=active]:text-[#111111]">
+                  <span className="mode-icon grid size-9 shrink-0 place-items-center rounded-xl bg-[#111111] text-[#ffd633] group-data-[state=active]:bg-[#ffd633] group-data-[state=active]:text-[#111111]">
                     <ImageIcon className="size-5" />
                   </span>
                   <span className="min-w-0 flex-1">
@@ -333,9 +362,6 @@ export default function Home() {
                           <Check className="size-3.5" />
                         </span>
                       )}
-                    </span>
-                    <span className="mode-desc mt-1.5 block whitespace-normal text-sm font-normal leading-6 text-[#555555] group-data-[state=active]:text-white/90 sm:text-[15px]">
-                      適合房仲海報、社群首圖、廣告DM、專任委託及開放賞屋
                     </span>
                   </span>
                 </TabsTrigger>
@@ -456,24 +482,67 @@ export default function Home() {
                         />
                       )}
                     </label>
-                    <label>
+                    <div>
                       <span className="field-label">視覺風格</span>
-                      <Input
-                        value={data.style}
-                        onChange={(e) => setField("style", e.target.value)}
-                        placeholder="例：專業、溫馨、現代、清楚、可信任、科技"
-                        className="border-black/15 bg-white text-[#171717]"
-                      />
-                    </label>
-                    <label>
+                      <details className="multi-select relative">
+                        <summary className="flex h-11 cursor-pointer items-center justify-between rounded-xl border border-black/15 bg-white px-3 text-sm text-[#171717]">
+                          <span className="truncate">
+                            {data.style || "請選擇視覺風格"}
+                          </span>
+                        </summary>
+                        <div className="absolute left-0 right-0 z-30 mt-1 grid gap-1 rounded-xl border border-black/15 bg-white p-2 shadow-xl">
+                          {visualStyleOptions.map((item) => {
+                            const selected = data.style
+                              .split("、")
+                              .includes(item);
+                            return (
+                              <button
+                                key={item}
+                                type="button"
+                                onClick={() => toggleStyle(item)}
+                                className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-left text-sm transition ${selected ? "bg-[#fff3a6] font-bold text-[#171717]" : "text-[#454545] hover:bg-[#f3f3f3]"}`}
+                              >
+                                <span className={`grid size-5 place-items-center rounded border ${selected ? "border-[#e00000] bg-[#e00000] text-white" : "border-black/20 bg-white"}`}>
+                                  {selected && <Check className="size-3.5" />}
+                                </span>
+                                {item}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </details>
+                      <p className="mt-1.5 text-[11px] text-[#666666]">
+                        可複選，再次點選即可取消
+                      </p>
+                    </div>
+                    <div>
                       <span className="field-label">品牌配色</span>
-                      <Input
+                      <Select
                         value={data.colors}
-                        onChange={(e) => setField("colors", e.target.value)}
-                        placeholder="例：紅、綠＋黃、深藍色＋金／古銅、黑灰＋明亮霓虹"
-                        className="border-black/15 bg-white text-[#171717]"
-                      />
-                    </label>
+                        onValueChange={(value) => setField("colors", value)}
+                      >
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {colorOptions.map((item) => (
+                            <SelectItem key={item} value={item}>
+                              {item}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {data.colors === "自訂" && (
+                        <Input
+                          value={data.customColors}
+                          onChange={(e) =>
+                            setField("customColors", e.target.value)
+                          }
+                          placeholder="請輸入自訂配色"
+                          className="mt-2 border-black/15 bg-white text-[#171717]"
+                        />
+                      )}
+                    </div>
                     <label>
                       <span className="field-label">物件照片微調</span>
                       <Select
