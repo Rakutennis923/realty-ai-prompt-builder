@@ -10,6 +10,7 @@ import {
   RotateCcw,
   ShieldCheck,
   Sparkles,
+  UserRound,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type Mode = "copy" | "image";
+type Mode = "copy" | "image" | "portrait";
 type FormData = Record<string, string>;
 
 const copyUses = [
@@ -60,6 +61,23 @@ const imageUses = [
   ["exclusive", "專任委託海報"],
   ["open-house", "開放賞屋海報"],
   ["personal-brand", "個人品牌＋物件海報"],
+] as const;
+
+const portraitUses = [
+  ["business-suit", "專業西裝形象照"],
+  ["smart-casual", "商務休閒形象"],
+  ["younger-pro", "專業自然年輕化"],
+  ["natural-retouch", "自然美肌精神照"],
+  ["resume-headshot", "履歷／證件形象照"],
+  ["realtor-brand", "房仲個人品牌照"],
+  ["executive", "高階主管形象照"],
+  ["luxury-editorial", "精品雜誌人像"],
+  ["cinematic", "電影質感人像"],
+  ["korean-clean", "韓系清透形象"],
+  ["japanese-natural", "日系自然人像"],
+  ["outdoor-lifestyle", "戶外陽光生活照"],
+  ["sporty", "運動活力形象照"],
+  ["formal-event", "正式禮服／宴會造型"],
 ] as const;
 
 const visualStyleOptions = [
@@ -154,6 +172,37 @@ const imageDirections: Record<string, string> = {
     "物件仍是主角；只有使用者實際上傳人物照片時才可放入人物，人物占比不超過25%，並保持五官與年齡原貌。",
 };
 
+const portraitDirections: Record<string, string> = {
+  "business-suit":
+    "換成合身專業商務套裝。男性使用深藍或炭灰西裝、素色襯衫與低調領帶；女性使用俐落西裝外套搭配襯衫、長褲或及膝裙。採柔和影棚光與乾淨中性背景。",
+  "smart-casual":
+    "改為有親和力的商務休閒造型。男性使用襯衫或針織上衣搭配西裝外套；女性使用簡潔襯衫、針織上衣或柔和色西裝外套。保持自然、可靠、不過度正式。",
+  "younger-pro":
+    "保留本人真實年齡與辨識度，只自然減輕疲態、黑眼圈與細小紋理，使整體看起來精神、專業並自然年輕約3至5歲；禁止童顏化、換臉或改變臉型。",
+  "natural-retouch":
+    "進行自然美肌與精神提升：校正膚色與白平衡、降低油光與暫時性瑕疵、輕微柔化膚質、提亮眼神；保留毛孔、細紋、臉型與真實質感。",
+  "resume-headshot":
+    "製作履歷與專業平台適用的大頭照，正面或微側角度、肩膀以上構圖、表情自然自信、服裝端正、背景乾淨，光線均勻且不產生過度戲劇化陰影。",
+  "realtor-brand":
+    "製作親切可信的房仲個人品牌照，穿著合身商務服裝，姿態自然有自信，採明亮乾淨的專業環境或中性影棚背景；不得自行加入Logo、名牌、電話、建築或文字。",
+  executive:
+    "製作沉穩可靠的高階主管形象照，使用深色高質感商務套裝、簡潔姿態、精準輪廓光與低彩度辦公室或影棚背景，呈現領導力但不過度嚴肅。",
+  "luxury-editorial":
+    "製作低調精品雜誌風人像，服裝剪裁俐落、色彩克制，使用柔和側光、細緻陰影、大量留白與高級灰或暖米色背景，保留真實皮膚與本人辨識度。",
+  cinematic:
+    "製作電影感寫實人像，使用具有層次的主光與輪廓光、適度景深及電影色調；畫面可有氣氛但不得讓臉部過暗、變形或失去真實辨識度。",
+  "korean-clean":
+    "製作韓系清透形象照，使用柔和明亮光線、乾淨淺色背景、簡約服裝與自然妝髮；膚質清透但保留真實紋理，不使用過度磨皮、尖下巴或放大眼睛。",
+  "japanese-natural":
+    "製作日系自然人像，使用柔和日光、低飽和暖色、生活感構圖與簡潔服裝，表情自然親切，畫面安靜清爽並保留本人真實特徵。",
+  "outdoor-lifestyle":
+    "製作戶外陽光生活形象照，使用自然日光、柔和背景散景與輕鬆姿態；服裝乾淨有精神，背景不得自行加入未指定地標、建築或他人。",
+  sporty:
+    "製作健康有活力的運動形象照，換成合身但不暴露的運動服裝，姿態自然有自信，使用明亮動感光線；不得誇大肌肉、改變身形比例或生成未指定器材。",
+  "formal-event":
+    "換成正式宴會造型。男性使用合身深色西裝或晚宴服；女性使用剪裁典雅、端莊不暴露的洋裝或套裝。搭配柔和正式燈光與簡潔高雅背景。",
+};
+
 const initial: FormData = {
   propertyData: "",
   contactName: "",
@@ -173,6 +222,9 @@ const initial: FormData = {
   customCallToAction: "",
   photoAdjust: "自然明亮",
   portraitRetouch: "自然美肌",
+  portraitGender: "依原照片與使用者描述",
+  portraitFraming: "半身形象照",
+  portraitBackground: "依所選情境自動設計",
   fontStyle: "現代粗黑體",
 };
 
@@ -194,7 +246,8 @@ export default function Home() {
   const [data, setData] = useState<FormData>(initial);
   const [copied, setCopied] = useState(false);
   const [profileReady, setProfileReady] = useState(false);
-  const uses = mode === "copy" ? copyUses : imageUses;
+  const uses =
+    mode === "copy" ? copyUses : mode === "image" ? imageUses : portraitUses;
   const setField = (key: string, value: string) =>
     setData((old) => ({ ...old, [key]: value }));
   const toggleStyle = (style: string) => {
@@ -210,7 +263,13 @@ export default function Home() {
   const changeMode = (value: string) => {
     const next = value as Mode;
     setMode(next);
-    setUseCase(next === "copy" ? "listing" : "standard");
+    setUseCase(
+      next === "copy"
+        ? "listing"
+        : next === "image"
+          ? "standard"
+          : "business-suit",
+    );
   };
 
   useEffect(() => {
@@ -239,7 +298,11 @@ export default function Home() {
   const prompt = useMemo(() => {
     const title = uses.find(([id]) => id === useCase)?.[1] ?? "";
     const direction =
-      mode === "copy" ? copyDirections[useCase] : imageDirections[useCase];
+      mode === "copy"
+        ? copyDirections[useCase]
+        : mode === "image"
+          ? imageDirections[useCase]
+          : portraitDirections[useCase];
     const role =
       mode === "copy"
         ? "你是一位熟悉台灣不動產市場、廣告實務與繁體中文溝通的資深房仲行銷企劃。"
@@ -247,6 +310,11 @@ export default function Home() {
     const property =
       data.propertyData.trim() ||
       "（尚未貼上物件資料，資訊不足處請標示待確認）";
+    if (mode === "portrait") {
+      const portraitNotes =
+        data.propertyData.trim() || "無其他需求，依所選情境自然處理。";
+      return `你是一位專業人像攝影師、造型師與高階人像修圖師。\n\n請使用使用者本次上傳的本人照片製作「${title}」。未上傳清晰本人照片時，請先要求使用者上傳，不得憑空生成或使用其他人物代替。\n\n【最高優先人物保真規則】\n1. 上傳照片是唯一人物依據，必須保留本人真實辨識度。\n2. 不得重繪或更換臉孔；不得改變臉型、眉眼、眼距、鼻形、嘴形、耳朵、下巴、髮際線或本人原有眼鏡。\n3. 不得瘦臉、削下巴、放大眼睛、墊高鼻樑、改變身形比例或把人物修成另一個人。\n4. 只能進行自然膚色、亮度、白平衡、降噪、暫時性瑕疵與輕微膚質修飾；保留毛孔、細紋、年齡特徵及真實皮膚質感。\n5. 只有所選情境明確要求時，才可調整服裝、背景、光線、姿勢與構圖；不得自行增加其他人物、文字、Logo、名牌、電話、QR Code、地標或未提供的物件。\n\n【修改情境】\n${direction}\n\n【修改規格】\n性別造型：${data.portraitGender}\n構圖範圍：${data.portraitFraming}\n背景方式：${data.portraitBackground}\n修飾程度：${data.portraitRetouch}\n\n【其他需求】\n${portraitNotes}\n\n【輸出前檢查】\n確認人物仍可被辨識為同一人，五官、臉型、眼鏡與年齡特徵未被改變；確認只修改指定項目，繁體中文與所有細節均正確。`;
+    }
     const contact = "聯絡人與經紀業資料已包含在使用者貼上的物件資料內，請依原文呈現，不得自行補造。";
     const resolvedSize =
       data.size === "自訂尺寸"
@@ -346,7 +414,7 @@ export default function Home() {
               </div>
             </div>
             <Tabs value={mode} onValueChange={changeMode} className="mode-tabs mb-8">
-              <TabsList className="mode-tabs-list grid h-auto w-full grid-cols-1 gap-3 rounded-2xl bg-transparent p-0 sm:grid-cols-2">
+              <TabsList className="mode-tabs-list grid h-auto w-full grid-cols-1 gap-3 rounded-2xl bg-transparent p-0 sm:grid-cols-3">
                 <TabsTrigger
                   value="copy"
                   className="mode-trigger group h-16 min-h-16 items-center justify-start rounded-2xl border-2 border-black/15 bg-[#f7f7f7] px-4 py-2 text-left shadow-none transition-all hover:border-[#e00000] hover:bg-[#fff7d6] data-[state=active]:border-[#111111] data-[state=active]:bg-[#e00000] data-[state=active]:shadow-[0_0_0_3px_#ffd633,0_10px_24px_rgba(0,0,0,.18)]"
@@ -387,6 +455,26 @@ export default function Home() {
                     </span>
                   </span>
                 </TabsTrigger>
+                <TabsTrigger
+                  value="portrait"
+                  className="mode-trigger group h-16 min-h-16 items-center justify-start rounded-2xl border-2 border-black/15 bg-[#f7f7f7] px-4 py-2 text-left shadow-none transition-all hover:border-[#e00000] hover:bg-[#fff7d6] data-[state=active]:border-[#111111] data-[state=active]:bg-[#e00000] data-[state=active]:shadow-[0_0_0_3px_#ffd633,0_10px_24px_rgba(0,0,0,.18)]"
+                >
+                  <span className="mode-icon grid size-9 shrink-0 place-items-center rounded-xl bg-[#111111] text-[#ffd633] group-data-[state=active]:bg-[#ffd633] group-data-[state=active]:text-[#111111]">
+                    <UserRound className="size-5" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center justify-between gap-2">
+                      <strong className="mode-label text-lg text-[#171717] group-data-[state=active]:text-white">
+                        修改人像
+                      </strong>
+                      {mode === "portrait" && (
+                        <span className="grid size-5 place-items-center rounded-full bg-[#ffd633] text-[#111111]">
+                          <Check className="size-3.5" />
+                        </span>
+                      )}
+                    </span>
+                  </span>
+                </TabsTrigger>
               </TabsList>
             </Tabs>
             <div className="usecase-heading mb-3 flex items-center justify-between gap-3">
@@ -394,7 +482,9 @@ export default function Home() {
                 <p className="text-sm font-black text-[#171717]">
                   {mode === "copy"
                     ? "選擇文案情境／使用用途"
-                    : "選擇圖像情境／使用用途"}
+                    : mode === "image"
+                      ? "選擇圖像情境／使用用途"
+                      : "選擇人像修改情境／使用用途"}
                 </p>
                 <p className="usecase-count mt-1 text-xs text-[#666666]">
                   目前共有 {uses.length} 種，點選一項即可套用
@@ -426,22 +516,32 @@ export default function Home() {
             <div className="mb-6 flex items-center gap-3">
               <span className="step">2</span>
               <div>
-                <h3 className="font-black text-[#171717]">貼上物件資料</h3>
+                <h3 className="font-black text-[#171717]">
+                  {mode === "portrait" ? "輸入人像修改需求" : "貼上物件資料"}
+                </h3>
                 <p className="text-xs text-[#666666]">
-                  直接貼上公司系統產生的完整物件資料即可
+                  {mode === "portrait"
+                    ? "使用提示詞時，請一併上傳清晰的本人照片"
+                    : "直接貼上公司系統產生的完整物件資料即可"}
                 </p>
               </div>
             </div>
             <label className="block">
-              <span className="field-label">物件資料</span>
+              <span className="field-label">
+                {mode === "portrait" ? "其他修改需求" : "物件資料"}
+              </span>
               <div className="mb-3 rounded-xl border-2 border-[#111111] bg-[#ffd633] px-4 py-3 text-center text-base font-black leading-6 text-[#d90000] shadow-[0_4px_0_#111111] sm:text-lg">
-                請一定要在此輸入經紀業及經紀人
+                {mode === "portrait"
+                  ? "請務必在使用提示詞時上傳清晰本人照片"
+                  : "請一定要在此輸入經紀業及經紀人"}
               </div>
               <Textarea
                 value={data.propertyData}
                 onChange={(e) => setField("propertyData", e.target.value)}
                 placeholder={
-                  "請在這裡貼上完整物件資料，並包含經紀業及經紀人資料。\n例如：物件名稱、地點、總價、坪數、格局、樓層、屋齡、車位、特色、生活機能、交通條件及應揭露事項等。"
+                  mode === "portrait"
+                    ? "可補充服裝顏色、希望保留的配件、背景、姿勢或用途。\n例如：保留銀色細框眼鏡、深藍色西裝、白襯衫、銀色領帶，作為房仲名片形象照。"
+                    : "請在這裡貼上完整物件資料，並包含經紀業及經紀人資料。\n例如：物件名稱、地點、總價、坪數、格局、樓層、屋齡、車位、特色、生活機能、交通條件及應揭露事項等。"
                 }
                 className="min-h-72 rounded-2xl border-2 border-black/15 bg-white p-4 leading-7 text-[#171717] placeholder:text-[#777777] md:min-h-80"
               />
@@ -666,6 +766,118 @@ export default function Home() {
                             "精品襯線風",
                             "幾何科技字體",
                             "強烈廣告標題字",
+                          ].map((item) => (
+                            <SelectItem key={item} value={item}>
+                              {item}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </label>
+                  </div>
+                </section>
+              )}
+              {mode === "portrait" && (
+                <section className="order-1 mt-4 rounded-2xl border-2 border-black/10 bg-[#fffdf5] p-5">
+                  <div className="flex items-center gap-3">
+                    <span className="step">3</span>
+                    <div>
+                      <h3 className="font-black text-[#171717]">人像修改規格</h3>
+                      <p className="text-xs text-[#666666]">
+                        設定性別造型、構圖、背景與自然修飾程度
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-5 grid gap-4 md:grid-cols-2">
+                    <label>
+                      <span className="field-label">性別造型</span>
+                      <Select
+                        value={data.portraitGender}
+                        onValueChange={(value) =>
+                          setField("portraitGender", value)
+                        }
+                      >
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[
+                            "依原照片與使用者描述",
+                            "男性造型",
+                            "女性造型",
+                          ].map((item) => (
+                            <SelectItem key={item} value={item}>
+                              {item}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </label>
+                    <label>
+                      <span className="field-label">構圖範圍</span>
+                      <Select
+                        value={data.portraitFraming}
+                        onValueChange={(value) =>
+                          setField("portraitFraming", value)
+                        }
+                      >
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {["大頭照", "半身形象照", "四分之三身", "全身形象照"].map(
+                            (item) => (
+                              <SelectItem key={item} value={item}>
+                                {item}
+                              </SelectItem>
+                            ),
+                          )}
+                        </SelectContent>
+                      </Select>
+                    </label>
+                    <label>
+                      <span className="field-label">背景方式</span>
+                      <Select
+                        value={data.portraitBackground}
+                        onValueChange={(value) =>
+                          setField("portraitBackground", value)
+                        }
+                      >
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[
+                            "依所選情境自動設計",
+                            "保留原照片背景",
+                            "純色攝影棚背景",
+                            "簡潔辦公空間",
+                            "自然戶外散景",
+                          ].map((item) => (
+                            <SelectItem key={item} value={item}>
+                              {item}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </label>
+                    <label>
+                      <span className="field-label">修飾程度</span>
+                      <Select
+                        value={data.portraitRetouch}
+                        onValueChange={(value) =>
+                          setField("portraitRetouch", value)
+                        }
+                      >
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[
+                            "不修飾",
+                            "自然美肌",
+                            "專業形象修飾",
+                            "精緻美肌",
                           ].map((item) => (
                             <SelectItem key={item} value={item}>
                               {item}
