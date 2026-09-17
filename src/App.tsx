@@ -306,7 +306,7 @@ export default function Home() {
               <ShieldCheck className="size-3.5 text-[#ffd633]" />
               資料只在你的瀏覽器中組合
             </div>
-            <p className="max-w-[130px] text-right text-[8px] leading-tight text-white/35 sm:max-w-none sm:text-[9px]">
+            <p className="whitespace-nowrap text-right text-[7px] font-semibold leading-none tracking-tight text-[#fff4c2] sm:text-[9px]">
               2026@All Rights Reserved by 黃立鈞
             </p>
           </div>
