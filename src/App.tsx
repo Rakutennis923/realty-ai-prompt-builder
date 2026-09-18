@@ -210,20 +210,7 @@ const portraitSkinDirections: Record<string, string> = {
   專業精緻美肌:
     "進行專業形象照等級美肌：改善暗沉、膚色不均、黑眼圈、眼袋、油光與明顯細紋，整理眉毛、髮絲及儀容；效果清楚但必須保留本人真實五官與年齡辨識度。",
   高質感美肌:
-    "必須先分析本人原始臉況，再同時完成高質感雜誌級美肌與可看見但自然的輪廓優化；不得只調亮膚色、磨皮或套濾鏡。臉部過圓、過寬或浮腫時，自然收整雙頰與下顎線約5%至8%；臉部過瘦或凹陷時，適度增加雙頰健康飽滿感；並改善輕微左右不對稱，使男性更帥氣俐落、女性更漂亮有氣質。同步改善暗沉、膚色不均、黑眼圈、眼袋、細紋與鬆弛，保留毛孔和真實皮膚紋理。效果在前後對照中應清楚可辨，但不得改變骨相、五官比例、原始臉型特色或本人辨識度，也不得製造尖下巴、網紅臉、過度磨皮或陌生臉孔。",
-};
-
-const portraitFaceDirections: Record<string, string> = {
-  依原始臉況智慧優化:
-    "自行判斷臉部偏圓、偏寬、偏瘦、凹陷、浮腫或輕微不對稱，只修正確實存在的問題；不需要修正的部位保持原樣。",
-  圓臉自然收整:
-    "自然收整雙頰外側、浮腫與下顎線約5%至8%，保留本人原始臉型和成熟特徵，不得削成尖下巴。",
-  瘦臉增加飽滿感:
-    "為凹陷或過瘦的雙頰增加適度健康飽滿感，改善疲憊與消瘦感，不得讓臉部腫脹或幼齡化。",
-  改善浮腫與下顎線:
-    "降低臉部浮腫感，讓下顎線自然清楚、輪廓更俐落，但不得削骨、改變下巴形狀或明顯縮小臉型。",
-  保留原始臉型:
-    "完全保留原始臉型與輪廓，不進行臉型修正，只處理膚質、疲態、光線與儀容。",
+    "保留本人身分與五官特徵，完成清楚可見的專業棚拍精修。先判斷原始臉況並自動修正：臉部偏胖、偏圓、偏寬或浮腫時，自然收整雙頰外側、下半臉與下顎線，使輪廓較俐落；臉部過瘦或雙頰凹陷時，恢復少量健康飽滿感；有輕微左右不對稱時做自然平衡。接著使用局部明暗修飾與細緻膚質處理，明顯改善暗沉、膚色不均、黑眼圈、眼袋、油光、細紋與輕微鬆弛，同時保留毛孔和真實皮膚紋理。成品必須是同一個人更上相、更有精神、更帥氣或漂亮的專業版本，不能只是原照片變亮或套濾鏡。避免過度磨皮、塑膠肌、尖下巴、網紅臉、過度瘦臉、放大眼睛、改鼻形、改嘴形、改骨相與陌生臉孔。",
 };
 
 const portraitLookDirections: Record<string, string> = {
@@ -288,7 +275,6 @@ const initial: FormData = {
   portraitFraming: "半身形象照",
   portraitBackground: "依所選情境自動設計",
   portraitSkin: "自然美肌",
-  portraitFace: "依原始臉況智慧優化",
   portraitLook: "保留原本氣質",
   portraitHair: "年輕化時自然加深髮色",
   portraitSmile: "自然微笑",
@@ -383,11 +369,6 @@ export default function Home() {
       const skinDirection =
         portraitSkinDirections[data.portraitSkin] ||
         portraitSkinDirections["自然美肌"];
-      const faceDirection =
-        data.portraitSkin === "高質感美肌"
-          ? portraitFaceDirections[data.portraitFace] ||
-            portraitFaceDirections["依原始臉況智慧優化"]
-          : "本次未選擇高質感美肌，不調整臉型，只依美肌選項處理膚質與精神。";
       const lookDirection =
         portraitLookDirections[data.portraitLook] ||
         portraitLookDirections["保留原本氣質"];
@@ -397,7 +378,7 @@ export default function Home() {
       const smileDirection =
         portraitSmileDirections[data.portraitSmile] ||
         portraitSmileDirections["自然微笑"];
-      return `你是一位專業人像攝影師、造型師與高階人像修圖師。\n\n請使用使用者本次上傳的本人照片製作「${title}」。未上傳清晰本人照片時，請先要求使用者上傳，不得憑空生成或使用其他人物代替。\n\n【最高優先人物保真規則】\n1. 上傳照片是唯一人物依據，必須保留本人真實辨識度。\n2. 不得重繪或更換臉孔；不得改變眉眼、眼距、鼻形、嘴形、耳朵、髮際線或本人原有眼鏡。\n3. 一般美肌不得瘦臉、削下巴、放大眼睛、墊高鼻樑、改變身形比例或把人物修成另一個人。選擇「高質感美肌」時，必須依本人臉況完成可看見但自然的臉部軟組織與輪廓平衡，合理幅度約5%至8%；不可因保真要求而完全省略臉型修飾，但仍須保留原始臉型特色、骨相、五官比例與本人辨識度。\n4. 美肌可以明顯改善膚色不均、暗沉、油光、黑眼圈、眼袋、暫時性瑕疵與明顯細紋，但不得改變骨相、五官比例及本人辨識度；保留自然皮膚紋理，避免塑膠感與過度磨皮。\n5. 年輕化只能改善疲態、紋路、暗沉與輕微鬆弛，並讓髮色與面貌協調；不得把成年人童顏化、改變族群特徵或變成另一個人。\n6. 調整笑容時只能自然改變嘴角、嘴唇與眼神表情，必須維持本人嘴型、牙齒比例及臉部特徵，不得造成陌生臉孔。\n7. 只有所選情境明確要求時，才可調整服裝、背景、光線、姿勢與構圖；不得自行增加其他人物、文字、Logo、名牌、電話、QR Code、地標或未提供的物件。\n\n【修改情境】\n${direction}\n\n【修改規格】\n性別造型：${data.portraitGender}\n構圖範圍：${data.portraitFraming}\n背景方式：${data.portraitBackground}\n美肌效果：${data.portraitSkin}。${skinDirection}\n臉型修飾：${data.portraitSkin === "高質感美肌" ? data.portraitFace : "不調整臉型"}。${faceDirection}\n形象氣質：${data.portraitLook}。${lookDirection}\n髮色處理：${data.portraitHair}。${hairDirection}\n笑容表情：${data.portraitSmile}。${smileDirection}\n\n【其他需求】\n${portraitNotes}\n\n【輸出前檢查】\n確認美肌、氣質、髮色與笑容效果已清楚呈現；若選擇年輕化，確認眼袋、黑眼圈、細紋、法令紋、暗沉及輕微鬆弛已按程度自然改善，髮色也與年輕後的面貌協調；若選擇高質感美肌，確認已實際完成所選臉型修飾，前後差異自然但清楚可辨，不得只做提亮、磨皮或濾鏡，也不得出現尖下巴、網紅臉或過度瘦臉。人物仍須被辨識為同一人，五官、骨相、原始臉型特色、眼鏡與髮際線未被改變。確認只修改指定項目，繁體中文與所有細節均正確。`;
+      return `你是一位專業人像攝影師、造型師與高階人像修圖師。\n\n請使用使用者本次上傳的本人照片製作「${title}」。未上傳清晰本人照片時，請先要求使用者上傳，不得憑空生成或使用其他人物代替。\n\n【最高優先人物保真規則】\n1. 上傳照片是唯一人物依據，必須保留本人真實辨識度。\n2. 不得重繪或更換臉孔；不得改變眉眼、眼距、鼻形、嘴形、耳朵、髮際線或本人原有眼鏡。\n3. 一般美肌不得調整臉型、放大眼睛、改變鼻形、嘴形、下巴或身形比例。選擇「高質感美肌」時，必須自動分析本人臉況並完成自然且清楚可見的輪廓優化：偏胖、偏圓、偏寬或浮腫則適度收整雙頰與下顎線；過瘦或凹陷則恢復少量健康飽滿感。不得因保真要求而完全省略這項修飾，但仍須維持同一人的骨相、核心臉型特色、五官比例與辨識度。\n4. 美肌可以改善膚色不均、暗沉、油光、黑眼圈、眼袋、暫時性瑕疵、細紋與輕微鬆弛；保留自然皮膚紋理，避免塑膠感與過度磨皮。\n5. 年輕化只能改善疲態、紋路、暗沉與輕微鬆弛，並讓髮色與面貌協調；不得把成年人童顏化、改變族群特徵或變成另一個人。\n6. 調整笑容時只能自然改變嘴角、嘴唇與眼神表情，必須維持本人嘴型、牙齒比例及臉部特徵，不得造成陌生臉孔。\n7. 只有所選情境明確要求時，才可調整服裝、背景、光線、姿勢與構圖；不得自行增加其他人物、文字、Logo、名牌、電話、QR Code、地標或未提供的物件。\n\n【修改情境】\n${direction}\n\n【修改規格】\n性別造型：${data.portraitGender}\n構圖範圍：${data.portraitFraming}\n背景方式：${data.portraitBackground}\n美肌效果：${data.portraitSkin}。${skinDirection}\n形象氣質：${data.portraitLook}。${lookDirection}\n髮色處理：${data.portraitHair}。${hairDirection}\n笑容表情：${data.portraitSmile}。${smileDirection}\n\n【其他需求】\n${portraitNotes}\n\n【輸出前檢查】\n確認美肌、氣質、髮色與笑容效果已清楚呈現；若選擇年輕化，確認眼袋、黑眼圈、細紋、法令紋、暗沉及輕微鬆弛已自然改善，髮色也與年輕後的面貌協調。若選擇高質感美肌，必須確認已依原始臉況完成自動輪廓優化與專業膚質精修，成品不能只是提亮、磨皮或套濾鏡；同時不得出現塑膠肌、尖下巴、網紅臉、過度瘦臉或陌生臉孔。人物仍須被辨識為同一人，眼鏡與髮際線保持不變。確認只修改指定項目，繁體中文與所有細節均正確。`;
     }
     const contact = "聯絡人與經紀業資料已包含在使用者貼上的物件資料內，請依原文呈現，不得自行補造。";
     const resolvedSize =
@@ -969,38 +950,12 @@ export default function Home() {
                           ))}
                         </SelectContent>
                       </Select>
-                    </label>
-                    {data.portraitSkin === "高質感美肌" && (
-                      <label>
-                        <span className="field-label">臉型修飾</span>
-                        <Select
-                          value={data.portraitFace}
-                          onValueChange={(value) =>
-                            setField("portraitFace", value)
-                          }
-                        >
-                          <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {[
-                              "依原始臉況智慧優化",
-                              "圓臉自然收整",
-                              "瘦臉增加飽滿感",
-                              "改善浮腫與下顎線",
-                              "保留原始臉型",
-                            ].map((item) => (
-                              <SelectItem key={item} value={item}>
-                                {item}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                      {data.portraitSkin === "高質感美肌" && (
                         <p className="mt-1.5 text-[11px] text-[#666666]">
-                          高質感美肌會依此選項實際調整，不只提亮與磨皮
+                          自動依本人臉況優化輪廓與膚質，不需另外設定
                         </p>
-                      </label>
-                    )}
+                      )}
+                    </label>
                     <label>
                       <span className="field-label">形象氣質</span>
                       <Select
