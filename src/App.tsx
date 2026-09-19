@@ -208,18 +208,18 @@ const portraitDirections: Record<string, string> = {
 const portraitSkinDirections: Record<string, string> = {
   不修飾: "保留原始膚況，只校正曝光、白平衡與整體色調。",
   自然美肌:
-    "輕度修飾（約25%～35%）：均勻膚色、降低油光、淡化暫時性瑕疵與輕微黑眼圈、稍微柔化細紋並提亮眼神。保留毛孔、原有臉型與五官，不調整臉寬、下顎或妝容，效果像自然光線下氣色變好。",
+    "自然改善氣色與膚質：均勻膚色、降低油光，淡化暫時性瑕疵、輕微黑眼圈與細紋，提亮眼神。保留真實皮膚紋理與原有臉型，不收整雙頰或下半臉。",
   專業精緻美肌:
-    "中度修飾（約50%～60%）：完整改善暗沉、膚色不均、油光、黑眼圈、眼袋與明顯細紋，細緻整理眉型、髮絲與儀容，以光影讓輪廓俐落；只可微調臉部軟組織不對稱或浮腫約5%，不改骨架、眼鼻嘴與原有下顎寬度，呈現正式商業形象照質感。",
+    "完成看得出差異的商業形象照精修：明顯改善暗沉、膚色不均、黑眼圈、眼袋與細紋，整理眉型和儀容；針對臉頰浮腫、肉感與輕微不對稱適度修整，呈現較立體俐落的臉部線條。保留原有下顎骨架、五官比例與自然皮膚紋理。",
   高質感美肌:
-    "明顯精修（約75%～85%）：完成高階棚拍級膚質、眼周、細紋、輕微鬆弛、眉型、髮絲與自然妝感處理。依本人臉況調整雙頰肉感、浮腫或凹陷，臉部視覺寬度最多自然調整約10%～15%，並平衡輕微不對稱；保留原有下顎骨架、寬度與自然弧度，不刻意削窄下顎。成品要明顯更上相、帥氣或漂亮，但不得換臉、放大眼睛、改鼻嘴、塑膠磨皮或變成網紅臉。",
+    "務必完成一眼可見的高質感美型精修，而非只調亮或磨皮：顯著改善暗沉、眼袋、黑眼圈、細紋與輕微鬆弛，讓膚質細緻透亮但保有真實紋理。依原始臉況處理臉頰與下半臉軟組織：偏圓或浮腫時明顯收整雙頰肉感，視覺上約縮窄15%～20%，並平衡不對稱；偏瘦凹陷時增加少量自然飽滿感。保留原有下顎骨架、寬度與自然弧度，讓成品更精緻漂亮或帥氣，且仍能認出是本人。",
 };
 
 const portraitSkinSummaries: Record<string, string> = {
   不修飾: "只校正光線與色調",
   自然美肌: "輕度：改善氣色與小瑕疵，不改臉型",
-  專業精緻美肌: "中度：商業精修，輪廓僅微調約5%",
-  高質感美肌: "明顯：棚拍級精修，依臉況調整約10%～15%",
+  專業精緻美肌: "中度：商業精修，適度修整雙頰與輪廓",
+  高質感美肌: "明顯：依臉況美型，雙頰可收整約15%～20%",
 };
 
 const portraitLookDirections: Record<string, string> = {
@@ -452,14 +452,20 @@ export default function Home() {
       const hairstyleDirection =
         portraitHairstyleDirections[data.portraitHairstyle] ||
         portraitHairstyleDirections[originalHairstyle];
+      const hairstyleRule =
+        data.portraitHairstyle === originalHairstyle
+          ? `【髮型】\n${hairstyleDirection}`
+          : `【髮型修改｜務必看得出變化】\n將原照片的髮型改成「${data.portraitHairstyle}」：${hairstyleDirection}這是明確的換髮型要求，不只是梳整、提亮或換髮色。請依目標造型調整頭髮長度、分線、捲度、層次或紮髮方式；需要長髮時可合理延長頭髮。髮型以本段為準，優先於情境中籠統的妝髮描述；保留本人臉孔與自然髮際線，完成後應能直接看出選定髮型。`;
       const smileDirection =
         portraitSmileDirections[data.portraitSmile] ||
         portraitSmileDirections["自然微笑"];
       return joinPromptSections(
         "你是一位專業人像攝影師、造型師與人像修圖師。",
         `請使用本次上傳的本人照片製作「${title}」。未上傳清晰本人照片時先要求補充，不得生成替代人物。`,
-        `【只執行本次選定設定】\n情境：${direction}\n性別造型：${data.portraitGender}\n構圖：${data.portraitFraming}\n背景：${data.portraitBackground}\n美肌：${skinDirection}\n氣質：${lookDirection}\n髮型：${hairstyleDirection}\n髮色：${hairDirection}\n表情：${smileDirection}`,
-        `【人物與資料邊界】\n- 保留同一人的核心五官、族群特徵、髮際線與真實辨識度；臉型修飾幅度只依本次選定的美肌等級，不再疊加其他等級。\n- 年齡變化只依本次選定的形象氣質；未選年輕化就不額外年輕化。\n- 髮型與髮色分別依本次選擇處理；換髮型仍保留本人髮際線，且不憑空增加過量髮量。\n- 除所選情境明確要求外，不加入未提供的人物、文字、Logo、名牌、電話、QR Code、地標或物件。\n- 不套用未選取的美肌、氣質、髮型、髮色或笑容提示。`,
+        hairstyleRule,
+        `【美肌效果｜只執行選定等級】\n${skinDirection}`,
+        `【其他設定】\n情境：${direction}\n性別造型：${data.portraitGender}\n構圖：${data.portraitFraming}\n背景：${data.portraitBackground}\n氣質：${lookDirection}\n髮色：${hairDirection}\n表情：${smileDirection}`,
+        `【人物與資料邊界】\n- 以原照片為人物依據，保留本人核心五官與辨識度；已選的美肌與髮型修改仍須清楚完成，不因保真要求而省略。\n- 年齡變化只依本次選定的形象氣質；未選年輕化就不額外年輕化。\n- 髮型決定頭髮造型，髮色選項只決定顏色。\n- 除所選情境明確要求外，不加入未提供的人物、文字、Logo、名牌、電話、QR Code、地標或物件。\n- 不套用未選取的美肌、氣質、髮型、髮色或笑容提示。`,
         `【其他需求】\n${portraitNotes}`,
         "【輸出檢查】只確認本次選定效果已呈現，且沒有互相抵觸、換臉、塑膠肌或未提供元素。",
       );
