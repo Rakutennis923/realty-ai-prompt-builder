@@ -18,7 +18,9 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -238,7 +240,7 @@ const portraitLookDirections: Record<string, string> = {
 
 const portraitHairDirections: Record<string, string> = {
   年輕化時自然加深髮色:
-    "若選擇年輕化，將白髮自然減少約50%至70%，髮色調整為帶有層次的自然黑或深棕色；若未選擇年輕化則保留原髮色。不得使用死黑色塊，也不得改變髮際線、髮型走向或憑空增加大量髮量。",
+    "若選擇年輕化，將白髮自然減少約50%至70%，髮色調整為帶有層次的自然黑或深棕色；若未選擇年輕化則保留原髮色。不得使用死黑色塊或改變髮際線；髮型依本次髮型選項處理。",
   保留原髮色:
     "完整保留原照片髮色與白髮比例，只整理零亂髮絲並改善光澤。",
   自然減少白髮:
@@ -247,6 +249,49 @@ const portraitHairDirections: Record<string, string> = {
     "將髮色調整為具有真實明暗層次的自然黑色，避免過度濃黑或像假髮。",
   深棕髮色:
     "將髮色調整為低調自然的深棕色，與膚色、眉毛及整體光線協調。",
+};
+
+const originalHairstyle = "保留原髮型，只整理髮絲";
+const maleHairstyles = [
+  "俐落側分短髮",
+  "韓系自然短髮",
+  "清爽平頭",
+  "自然後梳髮型",
+  "微捲紋理短髮",
+] as const;
+const femaleHairstyles = [
+  "側分長捲髮",
+  "中分長捲髮",
+  "自然長直髮",
+  "長髮髮尾微捲",
+  "半紮長髮",
+  "鎖骨層次髮",
+  "鎖骨內彎髮",
+  "中長微捲髮",
+  "俐落短鮑伯",
+  "蓬鬆層次短髮",
+  "低馬尾",
+  "優雅低盤髮",
+] as const;
+const portraitHairstyleDirections: Record<string, string> = {
+  [originalHairstyle]: "保留原照片的髮型、長度與分線，只整理零亂髮絲和自然光澤。",
+  俐落側分短髮: "整理為兩側清爽、頂部自然側分的短髮，線條俐落。",
+  韓系自然短髮: "整理為兩側清爽、頂部輕微層次的韓系短髮，不刻意蓬高。",
+  清爽平頭: "整理為長度均勻、乾淨整齊的短平頭。",
+  自然後梳髮型: "將頭髮自然向後梳整，保留原有髮量與成熟質感。",
+  微捲紋理短髮: "整理為帶輕微自然捲度與紋理的短髮，清爽有精神。",
+  側分長捲髮: "頭髮自然放下，採側分與柔和大捲，呈現優雅氣質。",
+  中分長捲髮: "頭髮自然放下，採中分與柔和大捲，呈現成熟大方的線條。",
+  自然長直髮: "頭髮自然放下，整理為柔順有光澤的長直髮。",
+  長髮髮尾微捲: "頭髮自然放下，上半部柔順，髮尾帶輕微自然弧度。",
+  半紮長髮: "上半部頭髮自然收起，下半部放下，整齊且柔和。",
+  鎖骨層次髮: "整理為及鎖骨長度、髮尾輕盈有層次的髮型。",
+  鎖骨內彎髮: "整理為及鎖骨長度，髮尾自然向內彎的髮型。",
+  中長微捲髮: "整理為肩下中長髮，加入輕柔自然的捲度。",
+  俐落短鮑伯: "整理為髮尾整齊、輪廓清爽的短鮑伯髮型。",
+  蓬鬆層次短髮: "整理為輕盈有層次的短髮，蓬鬆但不誇張。",
+  低馬尾: "將頭髮整齊束成低馬尾，保留少量自然線條。",
+  優雅低盤髮: "將頭髮整齊收成低盤髮，呈現端莊的正式造型。",
 };
 
 const portraitSmileDirections: Record<string, string> = {
@@ -283,6 +328,7 @@ const initial: FormData = {
   portraitBackground: "依所選情境自動設計",
   portraitSkin: "自然美肌",
   portraitLook: "保留原本氣質",
+  portraitHairstyle: originalHairstyle,
   portraitHair: "年輕化時自然加深髮色",
   portraitSmile: "自然微笑",
   fontStyle: "現代粗黑體",
@@ -345,6 +391,17 @@ export default function Home() {
           : "business-suit",
     );
   };
+  const changePortraitGender = (value: string) => {
+    setData((current) => ({
+      ...current,
+      portraitGender: value,
+      portraitHairstyle:
+        (value === "男性造型" && femaleHairstyles.includes(current.portraitHairstyle as typeof femaleHairstyles[number])) ||
+        (value === "女性造型" && maleHairstyles.includes(current.portraitHairstyle as typeof maleHairstyles[number]))
+          ? originalHairstyle
+          : current.portraitHairstyle,
+    }));
+  };
 
   useEffect(() => {
     try {
@@ -392,14 +449,17 @@ export default function Home() {
       const hairDirection =
         portraitHairDirections[data.portraitHair] ||
         portraitHairDirections["年輕化時自然加深髮色"];
+      const hairstyleDirection =
+        portraitHairstyleDirections[data.portraitHairstyle] ||
+        portraitHairstyleDirections[originalHairstyle];
       const smileDirection =
         portraitSmileDirections[data.portraitSmile] ||
         portraitSmileDirections["自然微笑"];
       return joinPromptSections(
         "你是一位專業人像攝影師、造型師與人像修圖師。",
         `請使用本次上傳的本人照片製作「${title}」。未上傳清晰本人照片時先要求補充，不得生成替代人物。`,
-        `【只執行本次選定設定】\n情境：${direction}\n性別造型：${data.portraitGender}\n構圖：${data.portraitFraming}\n背景：${data.portraitBackground}\n美肌：${skinDirection}\n氣質：${lookDirection}\n髮色：${hairDirection}\n表情：${smileDirection}`,
-        `【人物與資料邊界】\n- 保留同一人的核心五官、族群特徵、髮際線與真實辨識度；臉型修飾幅度只依本次選定的美肌等級，不再疊加其他等級。\n- 年齡變化只依本次選定的形象氣質；未選年輕化就不額外年輕化。\n- 除所選情境明確要求外，不加入未提供的人物、文字、Logo、名牌、電話、QR Code、地標或物件。\n- 不套用未選取的美肌、氣質、髮色或笑容提示。`,
+        `【只執行本次選定設定】\n情境：${direction}\n性別造型：${data.portraitGender}\n構圖：${data.portraitFraming}\n背景：${data.portraitBackground}\n美肌：${skinDirection}\n氣質：${lookDirection}\n髮型：${hairstyleDirection}\n髮色：${hairDirection}\n表情：${smileDirection}`,
+        `【人物與資料邊界】\n- 保留同一人的核心五官、族群特徵、髮際線與真實辨識度；臉型修飾幅度只依本次選定的美肌等級，不再疊加其他等級。\n- 年齡變化只依本次選定的形象氣質；未選年輕化就不額外年輕化。\n- 髮型與髮色分別依本次選擇處理；換髮型仍保留本人髮際線，且不憑空增加過量髮量。\n- 除所選情境明確要求外，不加入未提供的人物、文字、Logo、名牌、電話、QR Code、地標或物件。\n- 不套用未選取的美肌、氣質、髮型、髮色或笑容提示。`,
         `【其他需求】\n${portraitNotes}`,
         "【輸出檢查】只確認本次選定效果已呈現，且沒有互相抵觸、換臉、塑膠肌或未提供元素。",
       );
@@ -896,7 +956,7 @@ export default function Home() {
                     <div>
                       <h3 className="font-black text-[#171717]">人像修改規格</h3>
                       <p className="text-xs text-[#666666]">
-                        設定美肌、氣質、髮色、笑容、造型、構圖與背景
+                        設定美肌、氣質、髮型、髮色、笑容、造型、構圖與背景
                       </p>
                     </div>
                   </div>
@@ -905,9 +965,7 @@ export default function Home() {
                       <span className="field-label">性別造型</span>
                       <Select
                         value={data.portraitGender}
-                        onValueChange={(value) =>
-                          setField("portraitGender", value)
-                        }
+                        onValueChange={changePortraitGender}
                       >
                         <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
                           <SelectValue />
@@ -1026,6 +1084,36 @@ export default function Home() {
                               {item}
                             </SelectItem>
                           ))}
+                        </SelectContent>
+                      </Select>
+                    </label>
+                    <label>
+                      <span className="field-label">髮型</span>
+                      <Select
+                        value={data.portraitHairstyle}
+                        onValueChange={(value) => setField("portraitHairstyle", value)}
+                      >
+                        <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value={originalHairstyle}>{originalHairstyle}</SelectItem>
+                          {data.portraitGender !== "女性造型" && (
+                            <SelectGroup>
+                              <SelectLabel>男生髮型</SelectLabel>
+                              {maleHairstyles.map((item) => (
+                                <SelectItem key={item} value={item}>{item}</SelectItem>
+                              ))}
+                            </SelectGroup>
+                          )}
+                          {data.portraitGender !== "男性造型" && (
+                            <SelectGroup>
+                              <SelectLabel>女生髮型</SelectLabel>
+                              {femaleHairstyles.map((item) => (
+                                <SelectItem key={item} value={item}>{item}</SelectItem>
+                              ))}
+                            </SelectGroup>
+                          )}
                         </SelectContent>
                       </Select>
                     </label>
