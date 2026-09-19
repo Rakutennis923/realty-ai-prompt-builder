@@ -402,6 +402,27 @@ export default function Home() {
           : current.portraitHairstyle,
     }));
   };
+  const changePortraitHairstyle = (value: string) => {
+    setData((current) => ({
+      ...current,
+      portraitHairstyle: value,
+      portraitGender: maleHairstyles.includes(value as typeof maleHairstyles[number])
+        ? "男性造型"
+        : femaleHairstyles.includes(value as typeof femaleHairstyles[number])
+          ? "女性造型"
+          : current.portraitGender,
+    }));
+  };
+  const hairstyleGroups =
+    data.portraitGender === "男性造型"
+      ? [
+          { label: "男生髮型", options: maleHairstyles },
+          { label: "女生髮型", options: femaleHairstyles },
+        ]
+      : [
+          { label: "女生髮型", options: femaleHairstyles },
+          { label: "男生髮型", options: maleHairstyles },
+        ];
 
   useEffect(() => {
     try {
@@ -1097,31 +1118,26 @@ export default function Home() {
                       <span className="field-label">髮型</span>
                       <Select
                         value={data.portraitHairstyle}
-                        onValueChange={(value) => setField("portraitHairstyle", value)}
+                        onValueChange={changePortraitHairstyle}
                       >
                         <SelectTrigger className="h-11 w-full rounded-xl border-black/15 bg-white text-[#171717]">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value={originalHairstyle}>{originalHairstyle}</SelectItem>
-                          {data.portraitGender !== "女性造型" && (
-                            <SelectGroup>
-                              <SelectLabel>男生髮型</SelectLabel>
-                              {maleHairstyles.map((item) => (
+                          {hairstyleGroups.map(({ label, options }) => (
+                            <SelectGroup key={label}>
+                              <SelectLabel>{label}</SelectLabel>
+                              {options.map((item) => (
                                 <SelectItem key={item} value={item}>{item}</SelectItem>
                               ))}
                             </SelectGroup>
-                          )}
-                          {data.portraitGender !== "男性造型" && (
-                            <SelectGroup>
-                              <SelectLabel>女生髮型</SelectLabel>
-                              {femaleHairstyles.map((item) => (
-                                <SelectItem key={item} value={item}>{item}</SelectItem>
-                              ))}
-                            </SelectGroup>
-                          )}
+                          ))}
                         </SelectContent>
                       </Select>
+                      <p className="mt-1.5 text-[11px] text-[#666666]">
+                        男生 5 種、女生 12 種；選單可上下滑動
+                      </p>
                     </label>
                     <label>
                       <span className="field-label">髮色處理</span>
