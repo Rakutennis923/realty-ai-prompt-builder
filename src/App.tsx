@@ -30,22 +30,26 @@ type Mode = "copy" | "image" | "portrait";
 type FormData = Record<string, string>;
 
 const copyUses = [
-  ["listing", "專業物件銷售文案"],
-  ["591", "591物件文案"],
-  ["honest", "誠實揭露型文案"],
-  ["luxury-copy", "高總價住宅文案"],
-  ["land-copy", "土地／農地文案"],
-  ["facebook", "Facebook物件貼文"],
-  ["line", "LINE群組分享"],
-  ["calendar", "七天社群內容"],
-  ["district", "在地商圈介紹"],
-  ["video", "短影音腳本"],
+  ["listing", "標準物件銷售文"],
+  ["facebook", "Facebook吸睛貼文"],
+  ["titles", "物件標題生成"],
+  ["audiences", "同物件、不同客群"],
+  ["lifestyle", "生活情境式文案"],
+  ["video", "30秒看屋短影音"],
+  ["brand-positioning", "個人品牌定位"],
+  ["self-introduction", "個人簡介／自我介紹"],
+  ["knowledge", "專業知識分享"],
+  ["service-story", "成交故事／服務案例"],
+  ["local-expert", "在地生活圈專家"],
+  ["brand-calendar", "個人品牌內容月曆"],
+  ["manager-view", "主管觀點／帶人理念"],
+  ["recruiting", "團隊文化／人才招募"],
 ] as const;
 
 const imageUses = [
   ["standard", "專業標準物件海報"],
   ["fb-poster", "Facebook吸睛海報"],
-  ["line-poster", "LINE快速分享海報"],
+  ["sold", "賀成交海報"],
   ["591-cover", "591物件首圖"],
   ["luxury", "高總價豪宅海報"],
   ["first-home", "首購族住宅海報"],
@@ -61,7 +65,7 @@ const imageUses = [
   ["factory", "工業廠房海報"],
   ["price-cut", "降價／價格調整海報"],
   ["exclusive", "專任委託海報"],
-  ["open-house", "開放賞屋海報"],
+  ["new-listing", "新物件開箱海報"],
   ["personal-brand", "個人品牌＋物件海報"],
 ] as const;
 
@@ -112,24 +116,41 @@ const callToActionOptions = [
 
 const copyDirections: Record<string, string> = {
   listing:
-    "撰寫5個20字內標題、100字精簡版、300字完整版、6個條列特色，以及自然的預約賞屋結尾。",
-  "591":
-    "依手機閱讀習慣，先列三項核心優勢，再依物件特色、格局空間、生活機能、交通條件與適合對象分段，另產出5個標題。",
-  honest:
-    "客觀列出優點、應揭露事項、適合與不適合客群，再完成250字誠實但有吸引力的文案。不得淡化重大缺點。",
-  "luxury-copy":
-    "採沉穩、簡潔、精品雜誌式語氣，以空間、建築、隱私與生活方式呈現價值；避免堆砌奢華、帝王、稀有等俗套詞。",
-  "land-copy":
-    "分別產出專業完整版、LINE短版、5個廣告標題與購買前確認事項；不可自行宣稱可興建、變更、分割或申請農舍。",
+    "根據本次提供的物件資料，撰寫一篇適合591刊登的物件介紹。依序包含：短標題、物件基本資料、3～5項特色、預約看屋邀請。語氣專業親切，段落簡短，全文約350字。",
   facebook:
-    "產出能讓人停留的前兩行、生活情境、5項重點、基本資料、自然行動呼籲與5至8個相關標籤。",
-  line: "控制在120至180字，使用少量Emoji，清楚排列地點、總價、坪數、格局、車位、主要特色與聯絡方式。",
-  calendar:
-    "把同一物件拆成連續7天內容：亮點、格局、生活機能、交通、生活情境、常見問題、預約賞屋；每天附貼文、素材與行動呼籲。",
-  district:
-    "依商圈特色、採買、交通、居住環境、適合生活型態與注意事項撰寫，另列出必須上網查證的項目。",
+    "將本次提供的物件資料寫成Facebook售屋貼文。第一句從目標客群的居住需求切入，再呈現3個有資料支持的賣點，最後引導私訊預約。約250字，適量使用表情符號，避免整篇都是驚嘆號與促銷口號。",
+  titles:
+    "根據本次提供的物件資料，產出12個售屋標題，每個不超過18個中文字。分成『特色直述』『生活感受』『需求解決』三組。每個標題聚焦一個主要賣點，不使用沒有依據的最低價、唯一、秒殺等字眼。",
+  audiences:
+    "根據本次提供的物件資料，分別寫出首購族、換屋家庭、退休自住三種文案，每篇150字。先判斷物件有哪些已知條件能回應各客群需求；若資料不足以支持某種訴求，請指出，不要硬套。",
+  lifestyle:
+    "把本次提供的物件資料改寫成有生活畫面的售屋文，約250字。選用已確認的空間特色，描述可能的日常使用情境，讓讀者理解『這個特色對生活有什麼幫助』。假想情境不可寫成屋主真實故事，也不可增加不存在的設備或景觀。",
   video:
-    "產出30秒9:16直式短影音表格，包含秒數、畫面、運鏡、口白、每句不超過15字的字幕與轉場。",
+    "根據本次提供的物件資料與可拍攝畫面，製作30秒直式影片腳本。用表格列出秒數、畫面、運鏡、口白、字幕。前3秒突出主要特色，中段介紹3個重點，最後邀請預約；每句字幕不超過15字。",
+  "brand-positioning":
+    "根據本次提供的服務區域、年資、專長、個性、客群與真實服務案例，提出3個品牌定位方向。每個方向包含：一句話定位、主要服務對象、3項可證明的特色、適合的文字語氣。避免人人都能套用的空泛形容。",
+  "self-introduction":
+    "依據本次提供的個人經歷與服務特色，撰寫三種房仲自我介紹：社群簡介60字、Facebook置頂介紹250字、30秒口語自介。讓讀者知道服務區域、擅長解決的問題與聯絡方式。未提供的資歷、獎項與聯絡資料不得補造。",
+  knowledge:
+    "把本次提供的客戶常問問題與正確資料，寫成300字的房仲知識貼文。採用『客戶疑問→白話解釋→具體提醒→互動問題』結構，像有經驗的房仲向朋友說明。需要查證的內容另列，不要猜測。",
+  "service-story":
+    "根據本次提供的真實案例，包括客戶需求、遇到的困難、處理方式與最後結果，寫一篇350字的服務故事。重點呈現如何協助客戶判斷與解決問題，結尾分享一項心得。保護客戶隱私，不虛構對話，不加入未提供的成交金額與成效。",
+  "local-expert":
+    "根據本次提供的服務區域、實際走訪筆記與已確認資料，寫一篇在地生活觀察，包含生活特色、居住時要留意的地方，以及看屋時值得確認的問題。語氣自然、有觀察力，避免寫成觀光介紹或一味吹捧。",
+  "brand-calendar":
+    "根據本次提供的服務區域、主要客群與個人特色，規劃4週、每週3篇的社群內容，涵蓋專業知識、服務故事、在地生活與個人日常。以表格列出主題、開場句、需要準備的真實素材、互動問題；尚未提供的經歷只列為待補素材。",
+  "manager-view":
+    "將本次提供的帶人或處理案件真實經驗，寫成300字的主管觀點貼文。結構為『具體事件→我的處理→學到的事→給夥伴的鼓勵』。展現承擔、方法與同理心，避免說教及空泛勵志。",
+  recruiting:
+    "依據本次提供的團隊真實制度、培訓方式、工作日常與可提供資源，寫一篇面向指定對象（新人、轉職者或有經驗房仲）的招募貼文。清楚說明工作內容、團隊支持與適合特質，以自然邀請了解作結；不編造收入、福利或成功案例。",
+};
+
+const copyRoles: Record<string, string> = {
+  video: "你是一位熟悉台灣房地產的房仲短影音企劃。",
+  "brand-positioning": "你是一位熟悉台灣房仲業的個人品牌顧問。",
+  "brand-calendar": "你是一位熟悉台灣房仲業的社群內容企劃。",
+  "manager-view": "你是一位擅長整理管理經驗的房仲內容企劃。",
+  recruiting: "你是一位熟悉台灣房仲業的招募文案企劃。",
 };
 
 const imageDirections: Record<string, string> = {
@@ -137,8 +158,8 @@ const imageDirections: Record<string, string> = {
     "物件照片占60%，以主標題及使用者已提供的總價、坪數格局、特色與聯絡資訊建立清楚閱讀層級；未提供的項目直接省略。",
   "fb-poster":
     "前兩秒能看見物件名稱、總價及最大特色；畫面明亮、專業、有朝氣，適合手機社群瀏覽。",
-  "line-poster":
-    "版面極簡直接，僅呈現使用者已提供的總價、電話、地點、坪數、格局、車位和特色；未提供的項目直接省略。",
+  sold:
+    "製作喜氣、專業且具品牌質感的賀成交海報。以『賀成交』為主標，優先使用使用者已提供的物件照片、成交相關文字與人員照片；可用彩帶、金色光點或紅金幾何圖形營造慶祝感，但不得虛構成交價格、姓名、業績、獎項、日期、Logo或聯絡資料。未提供人物照片時不得生成人物。",
   "591-cover":
     "房屋照片為主，文字不超過畫面20%；只放短標題、總價、格局與一項核心賣點。",
   luxury:
@@ -168,8 +189,8 @@ const imageDirections: Record<string, string> = {
     "以醒目但不廉價的紅色標籤呈現價格調整，清楚列出原價、新價及調整日期。",
   exclusive:
     "突出專任委託、完整服務與專人負責，品牌標示醒目但不得遮住房屋主體。",
-  "open-house":
-    "僅將使用者已提供的日期、時間、地點與預約電話做醒目編排；未提供的資料或圖示不得補入，整體呈現明亮活動感。",
+  "new-listing":
+    "製作具有揭曉感的新物件開箱海報，以『新物件開箱』或使用者提供的標題作為主視覺。使用真實物件照片呈現一項最有資料支持的特色，版面明亮、新鮮、有期待感；不得自行增加家具、景觀、人物、價格、格局、地址、交通、學區或開箱日期。",
   "personal-brand":
     "物件仍是主角；只有使用者實際上傳人物照片時才可放入人物，人物占比不超過25%，並保持五官與年齡原貌。",
 };
@@ -467,6 +488,9 @@ export default function Home() {
     const property =
       data.propertyData.trim() ||
       "（尚未提供物件資料；請先要求使用者補充，不得自行填寫。）";
+    const copyData =
+      data.propertyData.trim() ||
+      "（尚未提供本次文案所需資料；請先列出需要補充的資料，不得自行填寫。）";
     if (mode === "portrait") {
       const portraitNotes =
         data.propertyData.trim() || "無其他需求，依所選情境自然處理。";
@@ -522,13 +546,14 @@ export default function Home() {
     const complianceRules = `【必要法規檢查】\n- 價格、坪數、用途、交通、學區、建設狀態、距離、投報率與稀有性等敘述，必須有使用者提供且可核實的依據；不足就省略，不得保證結果。\n- 物件照片不得改變格局、比例、固定設施、屋況、景觀或周邊環境；聯絡與經紀業資料只能照原文使用。\n- 輸出前刪除任何無來源或無法核實的內容，並提醒刊登前依權狀、謄本、使用執照、主管機關公告與個案事實人工查核。`;
 
     if (mode === "copy") {
+      const copyCommonRules = `【共同設定】\n全文使用台灣慣用繁體中文，只依據本次提供的資料撰寫。不得自行補造價格、坪數、交通時間、學區、建設、屋況、成交紀錄或客戶評價。缺少的重要資料另列提醒，不放進對外文案。文字自然、具體，少用空泛形容，每篇只保留一個主要行動呼籲。`;
       return joinPromptSections(
-        "你是一位熟悉台灣不動產市場、廣告實務與繁體中文的資深房仲行銷企劃。",
+        copyRoles[useCase] ||
+          "你是一位熟悉台灣房地產、廣告實務與繁體中文的房仲行銷文案企劃。",
         `請依照以下資料製作「${title}」。`,
         `【本次任務】\n${direction}`,
-        `【物件資料】\n${property}`,
-        sourceRules,
-        complianceRules,
+        `【本次提供資料】\n${copyData}`,
+        copyCommonRules,
       );
     }
 
@@ -729,35 +754,63 @@ export default function Home() {
               <span className="step">2</span>
               <div>
                 <h3 className="font-black text-[#171717]">
-                  {mode === "portrait" ? "輸入人像修改需求" : "貼上物件資料"}
+                  {mode === "portrait"
+                    ? "輸入人像修改需求"
+                    : mode === "copy"
+                      ? "輸入本次文案資料"
+                      : "貼上物件資料"}
                 </h3>
                 <p className="text-xs text-[#666666]">
                   {mode === "portrait"
                     ? "使用提示詞時，請一併上傳清晰的本人照片"
-                    : "直接貼上公司系統產生的完整物件資料即可"}
+                    : mode === "copy"
+                      ? "貼上這次文案需要的物件、個人品牌、案例或團隊資料"
+                      : "直接貼上公司系統產生的完整物件資料即可"}
                 </p>
               </div>
             </div>
-            <label className="block">
-              <span className="field-label">
-                {mode === "portrait" ? "其他修改需求" : "物件資料"}
-              </span>
+            <div className="block">
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <label htmlFor="source-data" className="field-label mb-0">
+                  {mode === "portrait"
+                    ? "其他修改需求"
+                    : mode === "copy"
+                      ? "本次提供資料"
+                      : "物件資料"}
+                </label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={!data.propertyData}
+                  onClick={() => setField("propertyData", "")}
+                  className="h-8 shrink-0 rounded-lg border-[#e00000] bg-white px-3 text-xs font-bold text-[#c90000] hover:bg-[#fff1f1] hover:text-[#a90000] disabled:border-black/10 disabled:text-[#999999]"
+                >
+                  <RotateCcw className="size-3.5" />
+                  清除資料
+                </Button>
+              </div>
               <div className="mb-3 rounded-xl border-2 border-[#111111] bg-[#ffd633] px-4 py-3 text-center text-base font-black leading-6 text-[#d90000] shadow-[0_4px_0_#111111] sm:text-lg">
                 {mode === "portrait"
                   ? "請務必在使用提示詞時上傳清晰本人照片"
-                  : "請一定要在此輸入經紀業及經紀人"}
+                  : mode === "copy"
+                    ? "請只輸入本次要使用的真實資料"
+                    : "請一定要在此輸入經紀業及經紀人"}
               </div>
               <Textarea
+                id="source-data"
                 value={data.propertyData}
                 onChange={(e) => setField("propertyData", e.target.value)}
                 placeholder={
                   mode === "portrait"
                     ? "可補充服裝顏色、希望保留的配件、背景、姿勢或用途。\n例如：保留銀色細框眼鏡、深藍色西裝、白襯衫、銀色領帶，作為房仲名片形象照。"
+                    : mode === "copy"
+                      ? "請貼上本次文案需要的真實資料。\n物件文案可提供物件基本資料、特色與可拍攝畫面；個人品牌文案可提供服務區域、年資、專長、客群、真實案例或團隊制度。"
                     : "請在這裡貼上完整物件資料，並包含經紀業及經紀人資料。\n例如：物件名稱、地點、總價、坪數、格局、樓層、屋齡、車位、特色、生活機能、交通條件及應揭露事項等。"
                 }
                 className="min-h-72 rounded-2xl border-2 border-black/15 bg-white p-4 leading-7 text-[#171717] placeholder:text-[#777777] md:min-h-80"
               />
-            </label>
+            </div>
             <div className="flex flex-col">
               {mode === "image" && (
                 <section
@@ -785,18 +838,11 @@ export default function Home() {
                             "正方形1:1（1080×1080，社群貼文）",
                             "直式4:5（1080×1350，社群貼文）",
                             "直式3:4（900×1200，一般海報）",
-                            "直式2:3（1000×1500，DM海報）",
                             "直式9:16（1080×1920，限動／短影音封面）",
                             "橫式16:9（1920×1080，簡報／影片封面）",
-                            "橫式5:4（1250×1000，一般橫式廣告）",
                             "橫式3:2（1500×1000，網站圖片）",
                             "橫式4:3（1600×1200，一般橫式海報）",
                             "橫式2:1（1600×800，網站橫幅／社群廣告）",
-                            "橫式3:1（1800×600，大型橫幅／看板）",
-                            "A4直式（210×297mm，印刷DM）",
-                            "A4橫式（297×210mm，印刷DM）",
-                            "直式1:5（長條帆布）",
-                            "橫式5:1（長條帆布）",
                             "自訂尺寸",
                           ].map((item) => (
                             <SelectItem key={item} value={item}>
